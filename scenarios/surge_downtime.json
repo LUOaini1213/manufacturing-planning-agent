@@ -1,0 +1,30 @@
+{
+  "name": "surge_downtime",
+  "story": "Order B is surged from 2 to 4 units. Fab machine M2 is down for all of D2. One stage of fab must finish before test. Due dates stay fixed.",
+  "periods": ["D1", "D2"],
+  "hours_per_period": 8,
+  "overtime_cap_hours": 2,
+  "costs": {
+    "overtime_per_hour": 80,
+    "tardiness_per_unit": 50,
+    "unfinished_per_unit": 200
+  },
+  "policies": {
+    "cost_min": {"overtime": 80, "tardiness": 50, "unfinished": 200},
+    "due_first": {"overtime": 80, "tardiness": 500, "unfinished": 2000}
+  },
+  "stages": ["fab", "test"],
+  "machines": [
+    {"id": "M1", "available": [8, 8]},
+    {"id": "M2", "available": [8, 0]},
+    {"id": "M3", "available": [8, 8]}
+  ],
+  "orders": [
+    {"id": "A", "qty": 4, "due": 0, "hours": {"fab": {"M1": 1.5}, "test": {"M3": 0.5}}},
+    {"id": "B", "qty": 4, "due": 1, "hours": {"fab": {"M1": 1.0, "M2": 1.0}, "test": {"M3": 0.5}}, "baseline_qty": 2},
+    {"id": "C", "qty": 5, "due": 1, "hours": {"fab": {"M2": 1.2}, "test": {"M3": 0.4}}},
+    {"id": "D", "qty": 3, "due": 0, "hours": {"fab": {"M1": 1.0}, "test": {"M3": 0.5}}}
+  ],
+  "sim_breakdown": {"machine": "M1", "period": 1, "hours": 3},
+  "sim_seed": 7
+}

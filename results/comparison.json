@@ -1,0 +1,347 @@
+{
+  "scenarios": [
+    {
+      "name": "surge_downtime",
+      "story": "Order B is surged from 2 to 4 units. Fab machine M2 is down for all of D2. One stage of fab must finish before test. Due dates stay fixed.",
+      "rule": {
+        "ok": true,
+        "status": "heuristic",
+        "policy": "earliest_due_date",
+        "on_time_units": 16,
+        "tardy_units": 0,
+        "unfinished_units": 0,
+        "overtime_hours": 3.0,
+        "accounting_cost": 240.0,
+        "reason": null
+      },
+      "fixed_workflow": {
+        "ok": true,
+        "status": "optimal",
+        "policy": "cost_min",
+        "on_time_units": 15,
+        "tardy_units": 1,
+        "unfinished_units": 0,
+        "overtime_hours": 0,
+        "accounting_cost": 50,
+        "reason": null,
+        "note": "replanned once",
+        "model_calls": 0,
+        "needs_human_confirm": false,
+        "log": [
+          {
+            "tool": "fill_missing",
+            "assumed": []
+          },
+          {
+            "tool": "solve",
+            "policy": "cost_min",
+            "ok": true,
+            "status": "optimal"
+          },
+          {
+            "tool": "simulate",
+            "which": "first_plan",
+            "tardy_units": 7,
+            "on_time_units": 9
+          },
+          {
+            "tool": "replan",
+            "change": "M1 period 1 availability 8 -> 5",
+            "ok": true,
+            "status": "optimal",
+            "accounting_cost": 50
+          },
+          {
+            "tool": "simulate",
+            "which": "replanned",
+            "on_time_units": 9,
+            "tardy_units": 7
+          }
+        ],
+        "sim_on_time_units": 9,
+        "sim_tardy_units": 7,
+        "sim_makespan": 15.6643
+      },
+      "agent": {
+        "ok": true,
+        "status": "optimal",
+        "policy": "due_first",
+        "on_time_units": 16,
+        "tardy_units": 0,
+        "unfinished_units": 0,
+        "overtime_hours": 1.0,
+        "accounting_cost": 80.0,
+        "reason": null,
+        "note": "pending confirmation",
+        "model_calls": 0,
+        "needs_human_confirm": true,
+        "log": [
+          {
+            "tool": "audit",
+            "missing": []
+          },
+          {
+            "tool": "select_policy",
+            "choice": "due_first",
+            "fab_hours_lost_fraction": 0.25,
+            "reason": "named menu only; weights are not free inputs"
+          },
+          {
+            "tool": "solve",
+            "policy": "due_first",
+            "ok": true,
+            "status": "optimal",
+            "accounting_cost": 80.0,
+            "tardy_units": 0
+          },
+          {
+            "tool": "simulate",
+            "tardy_units": 7,
+            "on_time_units": 9,
+            "makespan": 15.6058
+          },
+          {
+            "tool": "replan",
+            "change": "M1 period 1 8h -> 5h",
+            "ok": true,
+            "status": "optimal",
+            "accounting_cost": 80.0
+          },
+          {
+            "tool": "simulate",
+            "which": "replanned",
+            "on_time_units": 9,
+            "tardy_units": 7
+          },
+          {
+            "tool": "recommend",
+            "status": "pending_human_confirm",
+            "policy": "due_first",
+            "accounting_cost": 80.0,
+            "denied_relax": false
+          }
+        ],
+        "sim_on_time_units": 9,
+        "sim_tardy_units": 7,
+        "sim_makespan": 15.6058
+      }
+    },
+    {
+      "name": "missing_downtime",
+      "story": "M2 is reported down on D2, but the hours lost were not entered.",
+      "rule": {
+        "ok": false,
+        "status": "refused",
+        "policy": null,
+        "on_time_units": null,
+        "tardy_units": null,
+        "unfinished_units": null,
+        "overtime_hours": null,
+        "accounting_cost": null,
+        "reason": "missing availability"
+      },
+      "fixed_workflow": {
+        "ok": true,
+        "status": "optimal",
+        "policy": "cost_min",
+        "on_time_units": 9,
+        "tardy_units": 0,
+        "unfinished_units": 0,
+        "overtime_hours": 0,
+        "accounting_cost": 0,
+        "reason": null,
+        "note": "no breakdown",
+        "model_calls": 0,
+        "needs_human_confirm": false,
+        "log": [
+          {
+            "tool": "fill_missing",
+            "assumed": [
+              "M2 D2 assumed 8h"
+            ]
+          },
+          {
+            "tool": "solve",
+            "policy": "cost_min",
+            "ok": true,
+            "status": "optimal"
+          },
+          {
+            "tool": "simulate",
+            "which": "first_plan",
+            "tardy_units": 4,
+            "on_time_units": 5
+          },
+          {
+            "tool": "replan",
+            "skipped": "no breakdown"
+          }
+        ],
+        "sim_on_time_units": 5,
+        "sim_tardy_units": 4,
+        "sim_makespan": 12.0159
+      },
+      "agent": {
+        "ok": false,
+        "status": "abstain",
+        "policy": null,
+        "on_time_units": null,
+        "tardy_units": null,
+        "unfinished_units": null,
+        "overtime_hours": null,
+        "accounting_cost": null,
+        "reason": "missing availability: M2 D2",
+        "note": "abstain",
+        "model_calls": 0,
+        "needs_human_confirm": true,
+        "log": [
+          {
+            "tool": "audit",
+            "missing": [
+              "M2 D2"
+            ]
+          },
+          {
+            "tool": "solve",
+            "status": "not_called",
+            "reason": "availability is blank"
+          }
+        ],
+        "sim_on_time_units": null,
+        "sim_tardy_units": null,
+        "sim_makespan": null
+      }
+    },
+    {
+      "name": "contradictory_relax",
+      "story": "Same shock as surge_downtime, plus a request to move every due date to the last period so the on-time rate becomes 100%.",
+      "rule": {
+        "ok": true,
+        "status": "heuristic",
+        "policy": "earliest_due_date",
+        "on_time_units": 16,
+        "tardy_units": 0,
+        "unfinished_units": 0,
+        "overtime_hours": 3.0,
+        "accounting_cost": 240.0,
+        "reason": null
+      },
+      "fixed_workflow": {
+        "ok": true,
+        "status": "optimal",
+        "policy": "cost_min",
+        "on_time_units": 15,
+        "tardy_units": 1,
+        "unfinished_units": 0,
+        "overtime_hours": 0,
+        "accounting_cost": 50,
+        "reason": null,
+        "note": "replanned once",
+        "model_calls": 0,
+        "needs_human_confirm": false,
+        "log": [
+          {
+            "tool": "fill_missing",
+            "assumed": []
+          },
+          {
+            "tool": "solve",
+            "policy": "cost_min",
+            "ok": true,
+            "status": "optimal"
+          },
+          {
+            "tool": "simulate",
+            "which": "first_plan",
+            "tardy_units": 7,
+            "on_time_units": 9
+          },
+          {
+            "tool": "replan",
+            "change": "M1 period 1 availability 8 -> 5",
+            "ok": true,
+            "status": "optimal",
+            "accounting_cost": 50
+          },
+          {
+            "tool": "simulate",
+            "which": "replanned",
+            "on_time_units": 9,
+            "tardy_units": 7
+          }
+        ],
+        "sim_on_time_units": 9,
+        "sim_tardy_units": 7,
+        "sim_makespan": 15.6643
+      },
+      "agent": {
+        "ok": true,
+        "status": "optimal",
+        "policy": "due_first",
+        "on_time_units": 16,
+        "tardy_units": 0,
+        "unfinished_units": 0,
+        "overtime_hours": 1.0,
+        "accounting_cost": 80.0,
+        "reason": null,
+        "note": "pending confirmation",
+        "model_calls": 0,
+        "needs_human_confirm": true,
+        "log": [
+          {
+            "tool": "relax_due_dates",
+            "status": "denied",
+            "reason": "due dates stay in the data; lateness is a cost, not a constraint to delete"
+          },
+          {
+            "tool": "audit",
+            "missing": []
+          },
+          {
+            "tool": "select_policy",
+            "choice": "due_first",
+            "fab_hours_lost_fraction": 0.25,
+            "reason": "named menu only; weights are not free inputs"
+          },
+          {
+            "tool": "solve",
+            "policy": "due_first",
+            "ok": true,
+            "status": "optimal",
+            "accounting_cost": 80.0,
+            "tardy_units": 0
+          },
+          {
+            "tool": "simulate",
+            "tardy_units": 7,
+            "on_time_units": 9,
+            "makespan": 15.6058
+          },
+          {
+            "tool": "replan",
+            "change": "M1 period 1 8h -> 5h",
+            "ok": true,
+            "status": "optimal",
+            "accounting_cost": 80.0
+          },
+          {
+            "tool": "simulate",
+            "which": "replanned",
+            "on_time_units": 9,
+            "tardy_units": 7
+          },
+          {
+            "tool": "recommend",
+            "status": "pending_human_confirm",
+            "policy": "due_first",
+            "accounting_cost": 80.0,
+            "denied_relax": true
+          }
+        ],
+        "sim_on_time_units": 9,
+        "sim_tardy_units": 7,
+        "sim_makespan": 15.6058
+      }
+    }
+  ]
+}

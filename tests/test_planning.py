@@ -117,8 +117,12 @@ class PlanningTest(unittest.TestCase):
             for arm in ("rule", "fixed_workflow", "agent"):
                 self.assertIn(_cell(scenario[arm]), readme)
         surge = next(item for item in first["scenarios"] if item["name"] == "surge_downtime")
-        for arm in ("fixed_workflow", "agent"):
-            self.assertIn(_sim_cell(surge[arm]), readme)
+        workflow_log = surge["fixed_workflow"]["log"]
+        self.assertIn("固定流程第一次带停机回放" + _logged_sim(workflow_log, "first_plan"), readme)
+        self.assertIn("不再重复施加这次停机，回放" + _logged_sim(workflow_log, "replanned"), readme)
+        agent_outage = next(item for item in surge["agent"]["log"] if item["tool"] == "simulate" and "which" not in item)
+        self.assertIn("Agent 带停机回放" + _logged_sim_item(agent_outage), readme)
+        self.assertNotIn("两条优化计划的仿真都是", readme)
         missing = next(item for item in first["scenarios"] if item["name"] == "missing_downtime")
         self.assertIn(_sim_cell(missing["fixed_workflow"]), readme)
         self.assertEqual(surge["agent"]["model_calls"], 0)
@@ -137,6 +141,15 @@ def _signatures(report):
 
 def _sim_cell(row):
     return f"准时 {_num(row['sim_on_time_units'])}、延期 {_num(row['sim_tardy_units'])}"
+
+
+def _logged_sim(log, which):
+    item = next(entry for entry in log if entry.get("tool") == "simulate" and entry.get("which") == which)
+    return _logged_sim_item(item)
+
+
+def _logged_sim_item(item):
+    return f"准时 {_num(item['on_time_units'])}、延期 {_num(item['tardy_units'])}"
 
 
 def _cell(row):

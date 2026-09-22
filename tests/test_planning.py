@@ -118,8 +118,11 @@ class PlanningTest(unittest.TestCase):
                 self.assertIn(_cell(scenario[arm]), readme)
         surge = next(item for item in first["scenarios"] if item["name"] == "surge_downtime")
         workflow_log = surge["fixed_workflow"]["log"]
-        self.assertIn("固定流程第一次带停机回放" + _logged_sim(workflow_log, "first_plan"), readme)
-        self.assertIn("不再重复施加这次停机，回放" + _logged_sim(workflow_log, "replanned"), readme)
+        first_replay = _logged_sim(workflow_log, "first_plan")
+        replanned_replay = _logged_sim(workflow_log, "replanned")
+        self.assertNotEqual(first_replay, replanned_replay)
+        self.assertIn("固定流程第一次带停机回放" + first_replay, readme)
+        self.assertIn("不再重复施加这次停机，回放" + replanned_replay, readme)
         agent_outage = next(item for item in surge["agent"]["log"] if item["tool"] == "simulate" and "which" not in item)
         self.assertIn("Agent 带停机回放" + _logged_sim_item(agent_outage), readme)
         self.assertNotIn("两条优化计划的仿真都是", readme)

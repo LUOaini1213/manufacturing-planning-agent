@@ -285,6 +285,8 @@ def coordinate_plan(data: dict) -> dict:
 
     Each item is solved against the capacity the others leave behind. Production that can
     move into a later period is moved when the holding saved exceeds any new setup.
+    A later pass moves one lot off a tight period and replans the other items first, so
+    freed capacity can remove one of their setups. The MIP solution is not an input.
     """
     merged = merge_earlier(data)
     if not merged["ok"]:
@@ -356,51 +358,118 @@ def coordinate_plan(data: dict) -> dict:
         if not changed:
             break
 
-    for _ in range(n * periods):
-        levels = []
-        for item in range(n):
-            on_hand = 0.0
-            row = []
-            for period in range(periods):
-                on_hand += production[item][period] - data["demand"][period][item]
-                row.append(on_hand)
-            levels.append(row)
-        best = None
-        for item in range(n):
-            holding = data["holding"][item]
-            unit = data["unit_time"][item]
-            setup_time = data["setup_time"][item]
-            setup_cost = data["setup_cost"][item]
-            for src in range(periods):
-                here = production[item][src]
-                if here <= 1e-9:
-                    continue
-                for dest in range(src + 1, periods):
-                    spare = min(levels[item][period] for period in range(src, dest))
-                    if spare <= 1e-8:
-                        break
-                    room = data["capacity"] - _load(data, production, dest)
-                    already = production[item][dest] > 1e-9
-                    fit = room / unit if already else ((room - setup_time) / unit if room > setup_time else 0.0)
-                    qty_cap = min(here, spare, fit)
-                    if qty_cap <= 1e-8:
+    def delay_until_stable() -> None:
+        for _ in range(n * periods):
+            levels = []
+            for item in range(n):
+                on_hand = 0.0
+                row = []
+                for period in range(periods):
+                    on_hand += production[item][period] - data["demand"][period][item]
+                    row.append(on_hand)
+                levels.append(row)
+            best = None
+            for item in range(n):
+                holding = data["holding"][item]
+                unit = data["unit_time"][item]
+                setup_time = data["setup_time"][item]
+                setup_cost = data["setup_cost"][item]
+                for src in range(periods):
+                    here = production[item][src]
+                    if here <= 1e-9:
                         continue
-                    for qty in {qty_cap, here}:
-                        if qty <= 1e-8 or qty > qty_cap + 1e-8:
+                    for dest in range(src + 1, periods):
+                        spare = min(levels[item][period] for period in range(src, dest))
+                        if spare <= 1e-8:
+                            break
+                        room = data["capacity"] - _load(data, production, dest)
+                        already = production[item][dest] > 1e-9
+                        fit = room / unit if already else ((room - setup_time) / unit if room > setup_time else 0.0)
+                        qty_cap = min(here, spare, fit)
+                        if qty_cap <= 1e-8:
                             continue
-                        full = qty >= here - 1e-8
-                        gain = holding * qty * (dest - src)
-                        if full and already:
-                            gain += setup_cost
-                        elif not full and not already:
-                            gain -= setup_cost
-                        if gain > 1e-6 and (best is None or gain > best[0]):
-                            best = (gain, item, src, dest, here if full else qty)
-        if best is None:
-            break
-        _, item, src, dest, qty = best
-        production[item][src] = max(0.0, production[item][src] - qty)
-        production[item][dest] += qty
+                        for qty in {qty_cap, here}:
+                            if qty <= 1e-8 or qty > qty_cap + 1e-8:
+                                continue
+                            full = qty >= here - 1e-8
+                            gain = holding * qty * (dest - src)
+                            if full and already:
+                                gain += setup_cost
+                            elif not full and not already:
+                                gain -= setup_cost
+                            if gain > 1e-6 and (best is None or gain > best[0]):
+                                best = (gain, item, src, dest, here if full else qty)
+            if best is None:
+                return
+            _, item, src, dest, qty = best
+            production[item][src] = max(0.0, production[item][src] - qty)
+            production[item][dest] += qty
+
+    def descend(trial: list[list[float]], order: list[int]) -> list[list[float]]:
+        trial = [row[:] for row in trial]
+        for _ in range(n):
+            changed = False
+            saved = [row[:] for row in production]
+            production[:] = trial
+            for item in order:
+                lots = replan(item)
+                if lots is not None and any(abs(lots[period] - trial[item][period]) > 1e-6 for period in range(periods)):
+                    trial[item] = lots
+                    production[:] = trial
+                    changed = True
+            production[:] = saved
+            if not changed:
+                break
+        return trial
+
+    def kick_tight_lots() -> None:
+        for _ in range(n):
+            loads = [_load(data, production, period) for period in range(periods)]
+            tight = [period for period, load in enumerate(loads) if load >= 680]
+            slack = [period for period, load in enumerate(loads) if data["capacity"] - load >= 30]
+            chosen = None
+            for item in range(n):
+                for src in tight:
+                    qty = production[item][src]
+                    if qty <= 1e-9:
+                        continue
+                    for dest in slack:
+                        if dest == src:
+                            continue
+                        unit = data["unit_time"][item]
+                        setup_time = data["setup_time"][item]
+                        already = production[item][dest] > 1e-9
+                        added = unit * qty + (0.0 if already else setup_time)
+                        if _load(data, production, dest) + added > data["capacity"] + 1e-6:
+                            continue
+                        if dest > src:
+                            on_hand = 0.0
+                            spare = float("inf")
+                            for period in range(periods):
+                                on_hand += production[item][period] - data["demand"][period][item]
+                                if src <= period < dest:
+                                    spare = min(spare, on_hand)
+                            if spare + 1e-8 < qty:
+                                continue
+                        trial = [row[:] for row in production]
+                        trial[item][src] = 0.0
+                        trial[item][dest] += qty
+                        order = [other for other in range(n) if other != item] + [item]
+                        trial = descend(trial, order)
+                        try:
+                            cost = audit(data, trial)["objective"]
+                        except ValueError:
+                            continue
+                        if chosen is None or cost < chosen[0] - 1e-9:
+                            chosen = (cost, trial)
+            current = audit(data, production)["objective"]
+            if chosen is None or chosen[0] >= current - 1e-6:
+                return
+            production[:] = chosen[1]
+
+    delay_until_stable()
+    kick_tight_lots()
+    delay_until_stable()
 
     try:
         audit(data, production)

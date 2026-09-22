@@ -1,13 +1,17 @@
+import json
 import unittest
 from pathlib import Path
 
 from mpa.agent import run as run_agent
+from mpa.evaluate import evaluate
 from mpa.rules import earliest_due_date
-from mpa.scenario import load
+from mpa.scenario import load, normalize
+from mpa.simulate import simulate
 from mpa.solve import solve
 from mpa.workflow import run as run_workflow
 
 ROOT = Path(__file__).resolve().parents[1]
+COMPARED = ("status", "policy", "on_time_units", "tardy_units", "unfinished_units", "accounting_cost")
 
 
 class PlanningTest(unittest.TestCase):
@@ -32,6 +36,11 @@ class PlanningTest(unittest.TestCase):
                 fab_cum += fab.get(period, 0)
                 test_cum += test.get(period, 0)
                 self.assertGreaterEqual(fab_cum, test_cum)
+        orders = {item["id"]: item for item in self.surge["orders"]}
+        available = {machine["id"]: machine["available"] for machine in self.surge["machines"]}
+        for row in plan["assignment"]:
+            self.assertIn(row["machine"], orders[row["order"]]["hours"][row["stage"]])
+            self.assertGreater(available[row["machine"]][row["period"]], 0)
 
     def test_missing_hours_are_not_invented_by_the_agent(self):
         scenario = load(ROOT / "scenarios" / "missing_downtime.json")
@@ -40,7 +49,9 @@ class PlanningTest(unittest.TestCase):
         self.assertFalse(agent["plan"]["ok"])
         self.assertEqual(agent["plan"]["status"], "abstain")
         self.assertTrue(workflow["plan"]["ok"])
-        self.assertTrue(any(item["tool"] == "fill_missing" and item["assumed"] for item in workflow["log"]))
+        assumed = next(item["assumed"] for item in workflow["log"] if item["tool"] == "fill_missing")
+        self.assertIn("M2 D2 assumed 8h", assumed)
+        self.assertEqual(workflow["plan"]["status"], "optimal")
 
     def test_due_date_relax_is_denied_and_the_model_is_unchanged(self):
         scenario = load(ROOT / "scenarios" / "contradictory_relax.json")
@@ -58,6 +69,160 @@ class PlanningTest(unittest.TestCase):
         optimal = solve(self.surge, "cost_min")
         self.assertTrue(rule["ok"])
         self.assertLessEqual(optimal["accounting_cost"], rule["accounting_cost"] + 1e-6)
+
+    def test_highs_matches_exhaustive_enumeration(self):
+        scenario = _reduced_instance()
+        plan = solve(scenario, "cost_min")
+        self.assertTrue(plan["ok"])
+        self.assertEqual(plan["status"], "optimal")
+        self.assertAlmostEqual(plan["objective"], _enumerate_best(scenario), places=4)
+        self.assertFalse(any(row["machine"] == "M2" for row in plan["assignment"]))
+
+    def test_seeded_simulation_can_miss_more_and_replan_once(self):
+        plan = solve(self.surge, "due_first")
+        sim = simulate(self.surge, plan, self.surge["sim_breakdown"])
+        self.assertLess(sim["on_time_units"], plan["on_time_units"])
+        agent = run_agent(self.surge)
+        replans = [item for item in agent["log"] if item["tool"] == "replan" and "skipped" not in item]
+        self.assertEqual(len(replans), 1)
+        self.assertEqual(replans[0]["change"], "M1 period 1 8h -> 5h")
+        self.assertEqual(agent["model_calls"], 0)
+        self.assertTrue(agent["needs_human_confirm"])
+        self.assertEqual(agent["log"][-1]["status"], "pending_human_confirm")
+
+        slack = _slack_instance()
+        slack_plan = solve(slack, "cost_min")
+        slack_sim = simulate(slack, slack_plan, None)
+        self.assertGreaterEqual(slack_sim["on_time_units"], slack_plan["on_time_units"])
+        slack_agent = run_agent(slack)
+        self.assertTrue(all("skipped" in item for item in slack_agent["log"] if item["tool"] == "replan"))
+
+    def test_evaluation_records_three_arms_and_matches_readme(self):
+        first = evaluate()
+        second = evaluate()
+        self.assertEqual(_signatures(first), _signatures(second))
+        committed = json.loads((ROOT / "results" / "comparison.json").read_text(encoding="utf-8"))
+        self.assertEqual(_signatures(first), _signatures(committed))
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        for scenario in first["scenarios"]:
+            for arm in ("rule", "fixed_workflow", "agent"):
+                self.assertIn(_cell(scenario[arm]), readme)
+        surge = next(item for item in first["scenarios"] if item["name"] == "surge_downtime")
+        self.assertEqual(surge["agent"]["model_calls"], 0)
+        self.assertTrue(surge["agent"]["needs_human_confirm"])
+        for arm in ("rule", "fixed_workflow", "agent"):
+            for key in ("on_time_units", "tardy_units", "unfinished_units", "overtime_hours", "accounting_cost"):
+                self.assertIsInstance(surge[arm][key], (int, float))
+
+
+def _signatures(report):
+    found = {}
+    for scenario in report["scenarios"]:
+        found[scenario["name"]] = {arm: tuple(scenario[arm][key] for key in COMPARED) for arm in ("rule", "fixed_workflow", "agent")}
+    return found
+
+
+def _cell(row):
+    if row["on_time_units"] is None:
+        return "无方案"
+    return (
+        f"准时 {_num(row['on_time_units'])}，延期 {_num(row['tardy_units'])}，"
+        f"未完工 {_num(row['unfinished_units'])}，加班 {_num(row['overtime_hours'])}，成本 {_num(row['accounting_cost'])}"
+    )
+
+
+def _num(value):
+    if isinstance(value, float) and value.is_integer():
+        return str(int(value))
+    return str(value)
+
+
+def _reduced_instance():
+    return {
+        "periods": ["D1"],
+        "hours_per_period": 8,
+        "overtime_cap_hours": 2,
+        "costs": {"overtime_per_hour": 10, "tardiness_per_unit": 5, "unfinished_per_unit": 20},
+        "policies": {
+            "cost_min": {"overtime": 10, "tardiness": 5, "unfinished": 20},
+            "due_first": {"overtime": 10, "tardiness": 50, "unfinished": 200},
+        },
+        "stages": ["fab", "test"],
+        "machines": [
+            {"id": "M1", "available": [1.0]},
+            {"id": "M2", "available": [0.0]},
+        ],
+        "orders": [
+            {"id": "A", "qty": 2, "due": 0, "hours": {"fab": {"M1": 1.0}, "test": {"M1": 1.0}}},
+        ],
+    }
+
+
+def _enumerate_best(scenario):
+    """Independent integer search. Overtime is the least feasible hours above availability."""
+    order = scenario["orders"][0]
+    machines = scenario["machines"]
+    weights = scenario["policies"]["cost_min"]
+    cap = float(scenario["overtime_cap_hours"])
+    qty = int(order["qty"])
+    best = None
+    for fab_1 in range(qty + 1):
+        for fab_2 in range(qty + 1):
+            for test_1 in range(qty + 1):
+                for test_2 in range(qty + 1):
+                    counts = {"M1": {"fab": fab_1, "test": test_1}, "M2": {"fab": fab_2, "test": test_2}}
+                    if fab_1 + fab_2 != test_1 + test_2:
+                        continue
+                    if test_1 + test_2 > fab_1 + fab_2:
+                        continue
+                    unfinished = qty - (test_1 + test_2)
+                    overtime = 0.0
+                    feasible = True
+                    for machine in machines:
+                        hours = 0.0
+                        for stage in ("fab", "test"):
+                            rate = order["hours"].get(stage, {}).get(machine["id"])
+                            units = counts[machine["id"]][stage]
+                            if units and rate is None:
+                                feasible = False
+                            if rate:
+                                hours += units * float(rate)
+                        available = float(machine["available"][0])
+                        extra = max(0.0, hours - available)
+                        if extra > cap + 1e-9:
+                            feasible = False
+                        overtime += extra
+                    if not feasible:
+                        continue
+                    objective = overtime * weights["overtime"] + unfinished * weights["unfinished"]
+                    best = objective if best is None else min(best, objective)
+    if best is None:
+        raise AssertionError("reduced instance has no feasible assignment")
+    return round(best, 4)
+
+
+def _slack_instance():
+    return normalize(
+        {
+            "periods": ["D1"],
+            "hours_per_period": 8,
+            "overtime_cap_hours": 2,
+            "costs": {"overtime_per_hour": 80, "tardiness_per_unit": 50, "unfinished_per_unit": 200},
+            "policies": {
+                "cost_min": {"overtime": 80, "tardiness": 50, "unfinished": 200},
+                "due_first": {"overtime": 80, "tardiness": 500, "unfinished": 2000},
+            },
+            "stages": ["fab", "test"],
+            "machines": [
+                {"id": "M1", "available": [8]},
+                {"id": "M3", "available": [8]},
+            ],
+            "orders": [
+                {"id": "A", "qty": 1, "due": 0, "hours": {"fab": {"M1": 1.0}, "test": {"M3": 1.0}}},
+            ],
+            "sim_seed": 1,
+        }
+    )
 
 
 if __name__ == "__main__":

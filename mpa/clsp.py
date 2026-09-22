@@ -280,6 +280,143 @@ def merge_earlier(data: dict) -> dict:
     return {"ok": True, "status": "heuristic", **_cost_of(data, production, setups)}
 
 
+def coordinate_plan(data: dict) -> dict:
+    """Improve a feasible merge by replanning one item at a time, then producing later.
+
+    Each item is solved against the capacity the others leave behind. Production that can
+    move into a later period is moved when the holding saved exceeds any new setup.
+    """
+    merged = merge_earlier(data)
+    if not merged["ok"]:
+        return merged
+    n = data["n_items"]
+    periods = data["n_periods"]
+    production = [row[:] for row in merged["production"]]
+
+    def others(item: int, period: int) -> float:
+        total = 0.0
+        for other, lots in enumerate(production):
+            if other != item and lots[period] > 1e-9:
+                total += data["unit_time"][other] * lots[period] + data["setup_time"][other]
+        return total
+
+    def replan(item: int) -> list[float] | None:
+        demand = [_whole(data["demand"][period][item]) for period in range(periods)]
+        total = sum(demand)
+        unit = data["unit_time"][item]
+        setup_time = data["setup_time"][item]
+        holding = data["holding"][item]
+        setup_cost = data["setup_cost"][item]
+        cost = [{0: 0.0}] + [dict() for _ in range(periods)]
+        previous = [{} for _ in range(periods + 1)]
+        for period, need in enumerate(demand):
+            residual = data["capacity"] - others(item, period)
+            max_qty = int((residual - setup_time) // unit) if unit and residual > setup_time else 0
+            for on_hand, paid in cost[period].items():
+                choices = [0] if on_hand >= need else []
+                running = 0
+                quantities = []
+                for later in range(period, periods):
+                    running += demand[later]
+                    quantities.append(running - on_hand)
+                quantities.append(max_qty)
+                for qty in quantities:
+                    if 0 < qty <= max_qty and unit * qty + setup_time <= residual + 1e-6:
+                        choices.append(int(qty))
+                seen = set()
+                for qty in choices:
+                    if qty in seen:
+                        continue
+                    seen.add(qty)
+                    nxt = on_hand + qty - need
+                    if nxt < 0 or nxt > total:
+                        continue
+                    paid_next = paid + (setup_cost if qty else 0) + holding * nxt
+                    old = cost[period + 1].get(nxt)
+                    if old is None or paid_next < old - 1e-9:
+                        cost[period + 1][nxt] = paid_next
+                        previous[period + 1][nxt] = (on_hand, qty)
+        if 0 not in cost[periods]:
+            return None
+        lots = [0.0] * periods
+        on_hand = 0
+        for period in range(periods, 0, -1):
+            on_hand, qty = previous[period][on_hand]
+            lots[period - 1] = float(qty)
+        return lots
+
+    for _ in range(n):
+        changed = False
+        order = sorted(range(n), key=lambda item: data["setup_cost"][item] / max(data["holding"][item], 1e-9), reverse=True)
+        for item in order:
+            lots = replan(item)
+            if lots is not None and any(abs(lots[period] - production[item][period]) > 1e-6 for period in range(periods)):
+                production[item] = lots
+                changed = True
+        if not changed:
+            break
+
+    for _ in range(n * periods):
+        levels = []
+        for item in range(n):
+            on_hand = 0.0
+            row = []
+            for period in range(periods):
+                on_hand += production[item][period] - data["demand"][period][item]
+                row.append(on_hand)
+            levels.append(row)
+        best = None
+        for item in range(n):
+            holding = data["holding"][item]
+            unit = data["unit_time"][item]
+            setup_time = data["setup_time"][item]
+            setup_cost = data["setup_cost"][item]
+            for src in range(periods):
+                here = production[item][src]
+                if here <= 1e-9:
+                    continue
+                for dest in range(src + 1, periods):
+                    spare = min(levels[item][period] for period in range(src, dest))
+                    if spare <= 1e-8:
+                        break
+                    room = data["capacity"] - _load(data, production, dest)
+                    already = production[item][dest] > 1e-9
+                    fit = room / unit if already else ((room - setup_time) / unit if room > setup_time else 0.0)
+                    qty_cap = min(here, spare, fit)
+                    if qty_cap <= 1e-8:
+                        continue
+                    for qty in {qty_cap, here}:
+                        if qty <= 1e-8 or qty > qty_cap + 1e-8:
+                            continue
+                        full = qty >= here - 1e-8
+                        gain = holding * qty * (dest - src)
+                        if full and already:
+                            gain += setup_cost
+                        elif not full and not already:
+                            gain -= setup_cost
+                        if gain > 1e-6 and (best is None or gain > best[0]):
+                            best = (gain, item, src, dest, here if full else qty)
+        if best is None:
+            break
+        _, item, src, dest, qty = best
+        production[item][src] = max(0.0, production[item][src] - qty)
+        production[item][dest] += qty
+
+    try:
+        audit(data, production)
+    except ValueError as exc:
+        return {"ok": False, "status": "infeasible", "reason": str(exc)}
+    setups = [[1 if production[item][period] > 1e-9 else 0 for period in range(periods)] for item in range(n)]
+    return {"ok": True, "status": "heuristic", **_cost_of(data, production, setups)}
+
+
+def _whole(value: float) -> int:
+    rounded = round(value)
+    if abs(value - rounded) > 1e-6:
+        raise ValueError("coordinate plan expects integer demand")
+    return int(rounded)
+
+
 def audit(data: dict, production: list[list[float]]) -> dict:
     """Rebuild inventory and cost from quantities. Independent of the solver matrix."""
     n = data["n_items"]
@@ -327,6 +464,7 @@ def main() -> None:
     direct = lot_for_lot(data)
     shifted = shift_earlier(data)
     merged = merge_earlier(data)
+    coordinated = coordinate_plan(data)
     report = {
         "instance": "Trigeiro F1",
         "citation": "Trigeiro, Thomas, McClain, Management Science 35(3):353-366, 1989",
@@ -338,6 +476,7 @@ def main() -> None:
         "lot_for_lot": {key: direct[key] for key in ("ok", "status", "objective", "setups", "reason") if key in direct},
         "shift_earlier": {key: shifted[key] for key in ("ok", "status", "objective", "setups", "reason") if key in shifted},
         "merge_earlier": {key: merged[key] for key in ("ok", "status", "objective", "setups", "reason") if key in merged},
+        "coordinate_plan": {key: coordinated[key] for key in ("ok", "status", "objective", "setups", "reason") if key in coordinated},
     }
     out = ROOT / "results" / "trigeiro_f1.json"
     out.parent.mkdir(exist_ok=True)

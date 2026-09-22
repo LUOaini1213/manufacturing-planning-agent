@@ -27,5 +27,11 @@
     "status": "heuristic",
     "objective": 44519.0,
     "setups": 51
+  },
+  "coordinate_plan": {
+    "ok": true,
+    "status": "heuristic",
+    "objective": 42680.0,
+    "setups": 47
   }
 }

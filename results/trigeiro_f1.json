@@ -1,0 +1,31 @@
+{
+  "instance": "Trigeiro F1",
+  "citation": "Trigeiro, Thomas, McClain, Management Science 35(3):353-366, 1989",
+  "mirror": "https://github.com/gsamaro/trigeiro_fdata/blob/main/data/F1.DAT",
+  "items": 6,
+  "periods": 15,
+  "capacity": 728.0,
+  "highs": {
+    "ok": true,
+    "status": "optimal",
+    "objective": 40854.0,
+    "setups": 46,
+    "mip_gap": 7.212170442538428e-05
+  },
+  "lot_for_lot": {
+    "ok": false,
+    "status": "infeasible",
+    "reason": "period 4 needs 748 > 728"
+  },
+  "shift_earlier": {
+    "ok": false,
+    "status": "infeasible",
+    "reason": "no earlier slot fits a lot from period 10"
+  },
+  "merge_earlier": {
+    "ok": true,
+    "status": "heuristic",
+    "objective": 44519.0,
+    "setups": 51
+  }
+}

@@ -9,7 +9,7 @@ import simpy
 from mpa.solve import _accounting_cost
 
 
-def simulate(scenario: dict, plan: dict, breakdown: dict | None = None) -> dict:
+def simulate(scenario: dict, plan: dict, breakdown: dict | None = None, pace: float | None = None) -> dict:
     if not plan.get("ok"):
         return {"ok": False, "reason": "no plan to simulate"}
     rng = random.Random(int(scenario.get("sim_seed", 0)))
@@ -24,14 +24,15 @@ def simulate(scenario: dict, plan: dict, breakdown: dict | None = None) -> dict:
         window = windows[(job["machine"], job["period"])]
         if window["end"] <= window["start"] + 1e-9:
             return None
+        # Wait for the opening before taking the machine. A later period must not
+        # sit on the resource and block work that is already allowed to start.
+        if env.now < window["start"]:
+            yield env.timeout(window["start"] - env.now)
         resource = resources[job["machine"]]
         with resource.request() as request:
             yield request
-            if env.now < window["start"]:
-                yield env.timeout(window["start"] - env.now)
-            process = job["hours_each"] * rng.uniform(0.9, 1.15)
-            # A missed window still runs. The finish time, not a deleted unit, is what makes it late.
-            yield env.timeout(process)
+            multiplier = pace if pace is not None else rng.uniform(0.9, 1.15)
+            yield env.timeout(job["hours_each"] * multiplier)
             return env.now
 
     def run_unit(fab: dict, test: dict, order: dict):
@@ -80,11 +81,14 @@ def _windows(scenario: dict, plan: dict, breakdown: dict | None, hours_per_perio
     windows = {}
     for machine in scenario["machines"]:
         for period, available in enumerate(machine["available"]):
-            hours = float(available or 0.0) + overtime.get((machine["id"], period), 0.0)
+            open_hours = float(available or 0.0) + overtime.get((machine["id"], period), 0.0)
+            down = 0.0
             if breakdown and breakdown["machine"] == machine["id"] and breakdown["period"] == period:
-                hours = max(0.0, hours - float(breakdown["hours"]))
-            start = period * hours_per_period
-            windows[(machine["id"], period)] = {"start": start, "end": start + hours}
+                down = min(float(breakdown["hours"]), open_hours)
+                open_hours = max(0.0, open_hours - down)
+            # The lost hours are a real outage at the start of the period, not a label on the end.
+            start = period * hours_per_period + down
+            windows[(machine["id"], period)] = {"start": start, "end": start + open_hours}
     return windows
 
 

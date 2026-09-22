@@ -78,6 +78,15 @@ class PlanningTest(unittest.TestCase):
         self.assertAlmostEqual(plan["objective"], _enumerate_best(scenario), places=4)
         self.assertFalse(any(row["machine"] == "M2" for row in plan["assignment"]))
 
+    def test_nominal_replay_matches_plan_and_downtime_finishes_later(self):
+        plan = solve(self.surge, "cost_min")
+        nominal = simulate(self.surge, plan, None, pace=1)
+        self.assertEqual(nominal["on_time_units"], plan["on_time_units"])
+        self.assertEqual(nominal["tardy_units"], plan["tardy_units"])
+        self.assertEqual(nominal["unfinished_units"], plan["unfinished_units"])
+        delayed = simulate(self.surge, plan, self.surge["sim_breakdown"], pace=1)
+        self.assertGreater(delayed["makespan"], nominal["makespan"])
+
     def test_seeded_simulation_can_miss_more_and_replan_once(self):
         plan = solve(self.surge, "due_first")
         sim = simulate(self.surge, plan, self.surge["sim_breakdown"])
@@ -108,6 +117,10 @@ class PlanningTest(unittest.TestCase):
             for arm in ("rule", "fixed_workflow", "agent"):
                 self.assertIn(_cell(scenario[arm]), readme)
         surge = next(item for item in first["scenarios"] if item["name"] == "surge_downtime")
+        for arm in ("fixed_workflow", "agent"):
+            self.assertIn(_sim_cell(surge[arm]), readme)
+        missing = next(item for item in first["scenarios"] if item["name"] == "missing_downtime")
+        self.assertIn(_sim_cell(missing["fixed_workflow"]), readme)
         self.assertEqual(surge["agent"]["model_calls"], 0)
         self.assertTrue(surge["agent"]["needs_human_confirm"])
         for arm in ("rule", "fixed_workflow", "agent"):
@@ -120,6 +133,10 @@ def _signatures(report):
     for scenario in report["scenarios"]:
         found[scenario["name"]] = {arm: tuple(scenario[arm][key] for key in COMPARED) for arm in ("rule", "fixed_workflow", "agent")}
     return found
+
+
+def _sim_cell(row):
+    return f"准时 {_num(row['sim_on_time_units'])}、延期 {_num(row['sim_tardy_units'])}"
 
 
 def _cell(row):

@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 from mpa.solve import _accounting_cost
+from mpa.scenario import normalize
 
 
 def earliest_due_date(scenario: dict) -> dict:
+    scenario = normalize(scenario)
     if any(hours is None for machine in scenario["machines"] for hours in machine["available"]):
         return {"ok": False, "status": "refused", "reason": "missing availability"}
     orders = sorted(scenario["orders"], key=lambda order: (order["due"], order["id"]))
@@ -15,9 +17,10 @@ def earliest_due_date(scenario: dict) -> dict:
         (machine["id"], period): float(hours)
         for machine in machines
         for period, hours in enumerate(machine["available"])
+        if hours > 0
     }
     overtime_left = {
-        (machine["id"], period): float(scenario["overtime_cap_hours"])
+        (machine["id"], period): float(scenario["overtime_cap_hours"]) if machine["available"][period] > 0 else 0.0
         for machine in machines
         for period in range(len(periods))
     }
@@ -85,11 +88,11 @@ def earliest_due_date(scenario: dict) -> dict:
 
     assignment = _collapse(assignment)
     overtime = [
-        {"machine": machine, "period": period, "period_name": periods[period], "hours": round(hours, 4)}
+        {"machine": machine, "period": period, "period_name": periods[period], "hours": hours}
         for (machine, period), hours in sorted(overtime_used.items())
-        if hours > 1e-6
+        if hours > 0
     ]
-    overtime_hours = round(sum(item["hours"] for item in overtime), 4)
+    overtime_hours = sum(item["hours"] for item in overtime)
     return {
         "ok": True,
         "status": "heuristic",

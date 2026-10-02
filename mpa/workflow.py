@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 
-from mpa.scenario import clone_with_availability, fill_missing_with_shift
+from mpa.scenario import apply_breakdown, fill_missing_with_shift, normalize
 from mpa.simulate import simulate
 from mpa.solve import solve
 
 
 def run(scenario: dict) -> dict:
+    scenario = normalize(scenario)
     log = []
     prepared, assumed = fill_missing_with_shift(scenario)
     log.append({"tool": "fill_missing", "assumed": assumed})
@@ -16,9 +17,13 @@ def run(scenario: dict) -> dict:
     if not plan["ok"]:
         return _done("fixed_workflow", log, plan, None, "solver refused")
     sim = simulate(prepared, plan, scenario.get("sim_breakdown"))
-    log.append({"tool": "simulate", "which": "first_plan", "tardy_units": sim.get("tardy_units"), "on_time_units": sim.get("on_time_units")})
+    log.append({"tool": "simulate", "which": "first_plan", "tardy_units": sim.get("tardy_units"), "on_time_units": sim.get("on_time_units"), "unfinished_units": sim.get("unfinished_units")})
+    first_sim = sim
     replanned, sim = _replan(prepared, scenario.get("sim_breakdown"), sim, log)
-    return _done("fixed_workflow", log, plan, sim, "replanned once" if replanned else "no breakdown", replanned)
+    result = _done("fixed_workflow", log, plan, sim, "offline re-solve once" if replanned else "no replacement", replanned)
+    result["initial_plan"] = plan
+    result["first_simulation"] = first_sim
+    return result
 
 
 def _replan(scenario: dict, breakdown: dict | None, sim: dict, log: list):
@@ -27,8 +32,8 @@ def _replan(scenario: dict, breakdown: dict | None, sim: dict, log: list):
         return None, sim
     machine = next(item for item in scenario["machines"] if item["id"] == breakdown["machine"])
     current = float(machine["available"][breakdown["period"]])
-    reduced = max(0.0, current - float(breakdown["hours"]))
-    updated = clone_with_availability(scenario, breakdown["machine"], breakdown["period"], reduced)
+    updated = apply_breakdown(scenario, breakdown)
+    reduced = next(item for item in updated["machines"] if item["id"] == breakdown["machine"])["available"][breakdown["period"]]
     plan = solve(updated, "cost_min")
     log.append(
         {
@@ -42,7 +47,7 @@ def _replan(scenario: dict, breakdown: dict | None, sim: dict, log: list):
     if not plan["ok"]:
         return None, sim
     checked = simulate(updated, plan, None)
-    log.append({"tool": "simulate", "which": "replanned", "on_time_units": checked["on_time_units"], "tardy_units": checked["tardy_units"]})
+    log.append({"tool": "simulate", "which": "replanned", "on_time_units": checked["on_time_units"], "tardy_units": checked["tardy_units"], "unfinished_units": checked["unfinished_units"]})
     return plan, checked
 
 

@@ -5,10 +5,11 @@ from __future__ import annotations
 import numpy as np
 from scipy.optimize import Bounds, LinearConstraint, milp
 
-from mpa.scenario import missing_availability
+from mpa.scenario import missing_availability, normalize
 
 
 def solve(scenario: dict, policy: str = "cost_min") -> dict:
+    scenario = normalize(scenario)
     missing = missing_availability(scenario)
     if missing:
         return {"ok": False, "status": "refused", "reason": "missing availability: " + ", ".join(missing)}
@@ -56,7 +57,7 @@ def solve(scenario: dict, policy: str = "cost_min") -> dict:
     cap = float(scenario["overtime_cap_hours"])
     for machine in range(n_m):
         for period in range(n_t):
-            upper[overtime_index(machine, period)] = cap
+            upper[overtime_index(machine, period)] = cap if machines[machine]["available"][period] > 0 else 0
     for i, order in enumerate(orders):
         upper[late_index(i)] = order["qty"]
         upper[unfinished_index(i)] = order["qty"]
@@ -64,7 +65,8 @@ def solve(scenario: dict, policy: str = "cost_min") -> dict:
             for m, machine in enumerate(machines):
                 eligible = machine["id"] in order["hours"].get(stage, {})
                 for period in range(n_t):
-                    upper[x_index(i, s, m, period)] = order["qty"] if eligible else 0
+                    active = machine["available"][period] > 0
+                    upper[x_index(i, s, m, period)] = order["qty"] if eligible and active else 0
 
     rows: list[tuple[np.ndarray, float, float]] = []
 
@@ -122,7 +124,7 @@ def solve(scenario: dict, policy: str = "cost_min") -> dict:
             np.array([low for _, low, _ in rows], dtype=float),
             np.array([high for _, _, high in rows], dtype=float),
         ),
-        options={"time_limit": 10.0},
+        options={"time_limit": 10.0, "mip_rel_gap": 0.0},
     )
     status = _status_name(int(result.status))
     if not result.success or result.x is None:
@@ -149,15 +151,18 @@ def solve(scenario: dict, policy: str = "cost_min") -> dict:
     overtime = []
     for m, machine in enumerate(machines):
         for period, period_name in enumerate(periods):
-            hours = float(result.x[overtime_index(m, period)])
-            if hours > 1e-6:
-                overtime.append({"machine": machine["id"], "period": period, "period_name": period_name, "hours": round(hours, 4)})
+            hours = max(0.0, float(result.x[overtime_index(m, period)]))
+            if hours > 0:
+                overtime.append({"machine": machine["id"], "period": period, "period_name": period_name, "hours": hours})
     per_order = []
     tardy = 0
     unfinished = 0
     for i, order in enumerate(orders):
-        late_units = int(round(result.x[late_index(i)]))
-        unfinished_units = int(round(result.x[unfinished_index(i)]))
+        # Zero policy weights can leave auxiliary slack above its minimum. Report
+        # actual completions, not the arbitrary value of a free lateness variable.
+        completed = [row for row in assignment if row["order"] == order["id"] and row["stage"] == "test"]
+        late_units = sum(row["units"] for row in completed if row["period"] > order["due"])
+        unfinished_units = order["qty"] - sum(row["units"] for row in completed)
         tardy += late_units
         unfinished += unfinished_units
         per_order.append(
@@ -181,7 +186,7 @@ def solve(scenario: dict, policy: str = "cost_min") -> dict:
         "tardy_units": tardy,
         "unfinished_units": unfinished,
         "on_time_units": sum(order["qty"] for order in orders) - tardy - unfinished,
-        "overtime_hours": round(sum(item["hours"] for item in overtime), 4),
+        "overtime_hours": sum(item["hours"] for item in overtime),
         "accounting_cost": _accounting_cost(scenario, tardy, unfinished, sum(item["hours"] for item in overtime)),
     }
 

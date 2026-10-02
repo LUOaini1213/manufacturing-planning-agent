@@ -16,6 +16,7 @@ class TrigeiroTest(unittest.TestCase):
         optimal = solve_clsp(data)
         self.assertTrue(optimal["ok"])
         self.assertEqual(optimal["status"], "optimal")
+        self.assertEqual(optimal["mip_gap"], 0)
         checked = audit(data, optimal["production"])
         self.assertAlmostEqual(checked["objective"], optimal["objective"], places=2)
         direct = lot_for_lot(data)

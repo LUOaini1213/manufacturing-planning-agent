@@ -8,6 +8,12 @@ function checkedState(value) {
   }
   return value;
 }
+function evidenceBlob(text) {
+  try { if (typeof text !== "string") throw new Error(); checkedState(JSON.parse(text)); }
+  catch (_) { throw new Error("The evidence could not be read. Refresh before downloading."); }
+  // Preserve Python's JSON number spellings: 8.0 and 8 have different snapshot hashes.
+  return new Blob([text], { type: "application/json" });
+}
 class PlanningClient {
   constructor(fetcher, onState, onBusy) { this.fetch = fetcher; this.onState = onState; this.onBusy = onBusy; this.state = null; this.busy = false; this.uncertain = false; this.sessionId = null; this.token = null; }
   async request(path, body, token = this.token) {
@@ -17,6 +23,16 @@ class PlanningClient {
     let data; try { data = await response.json(); } catch (_) { throw new Error("The response was incomplete. Refresh state before acting."); }
     if (!response.ok) throw new Error(data.error?.message || "The action could not be confirmed. Refresh state.");
     return data;
+  }
+  async exportText() {
+    const response = await this.fetch("./api/export", { method: "GET", headers: { "X-Demo-Token": this.token || "", "X-Demo-Session": this.sessionId || "" }, cache: "no-store" });
+    let text, data;
+    try { text = await response.text(); data = JSON.parse(text); }
+    catch (_) { throw new Error("The evidence response was incomplete. Refresh before downloading."); }
+    if (!response.ok) throw new Error(data.error?.message || "The evidence could not be downloaded. Refresh state.");
+    if (!/^application\/json(?:\s*;|$)/i.test(response.headers.get("Content-Type") || "")) throw new Error("The evidence response was not JSON.");
+    checkedState(data);
+    return text;
   }
   publish(data) { this.state = checkedState(data); this.uncertain = false; this.onState(this.state); }
   async open(resume, bootstrap) {
@@ -43,7 +59,7 @@ class PlanningClient {
     } finally { this.busy = false; this.onBusy(false); }
   }
 }
-if (typeof module !== "undefined") module.exports = { PlanningClient, checkedState };
+if (typeof module !== "undefined") module.exports = { PlanningClient, checkedState, evidenceBlob };
 if (typeof document !== "undefined") boot();
 
 async function boot() {
@@ -117,11 +133,11 @@ async function boot() {
   $("modeDescription").textContent = recorded ? "Inspect a recorded HiGHS / SimPy exercise. These controls step through saved computations; they cannot run Python or change the event." : "HiGHS computes the future. SimPy executes confirmed routes. This is a synthetic exercise with no production commands.";
   $("replayControls").hidden = !recorded;
   controls();
-  function download(data) {
-    const url = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2) + "\n"], { type: "application/json" }));
+  function download(text) {
+    const url = URL.createObjectURL(evidenceBlob(text));
     const a = document.createElement("a"); a.href = url; a.download = "planning-evidence.json"; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
-  $("download").addEventListener("click", async () => { clearError(); try { download(recorded ? recording.frames[frame].evidence : await client.request("export")); } catch (e) { failure(e); } });
+  $("download").addEventListener("click", async () => { clearError(); try { download(recorded ? recording.frames[frame].evidenceJSON : await client.exportText()); } catch (e) { failure(e); } });
   if (recorded) {
     try { const reply = await fetch("./recording.json", { cache: "no-store" }); if (!reply.ok) throw new Error("The recorded exercise could not be loaded."); recording = await reply.json(); if (!Array.isArray(recording.frames) || !recording.frames.length) throw new Error("The recorded exercise is incomplete."); render(recording.frames[0].state); }
     catch (e) { recording = null; $("previousFrame").disabled = $("nextFrame").disabled = true; failure(e); }

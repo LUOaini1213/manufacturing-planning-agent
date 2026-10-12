@@ -4,10 +4,58 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 const vm = require("node:vm");
-const { PlanningClient, checkedState } = require("../mpa/demo_assets/app.js");
+const crypto = require("node:crypto");
+const { PlanningClient, checkedState, evidenceBlob } = require("../mpa/demo_assets/app.js");
 const state = (revision, time = 2) => ({ revision, snapshot: { currentTime: time, operations: [] }, snapshotHash: "hash" + time, history: [], provenance: {} });
 const reply = data => ({ ok: true, json: async () => data });
 function client(fetcher) { const published = []; const c = new PlanningClient(fetcher, s => published.push(s), () => {}); c.state = state(0); c.sessionId = "session"; c.token = "token"; return { c, published }; }
+const rawSnapshot = '{"currentTime":8.0,"operations":[{"processedHours":0.0}]}';
+const snapshotHash = crypto.createHash("sha256").update(rawSnapshot).digest("hex");
+const exactEvidence = '{"revision":4,"snapshot":' + rawSnapshot + ',"snapshotHash":"' + snapshotHash + '","history":[],"provenance":{}}\n';
+
+test("local export preserves raw Python 8.0/0.0 JSON through the actual Blob", async () => {
+  let request;
+  const { c, published } = client(async (path, init) => { request = { path, init }; return new Response(exactEvidence, { headers: { "Content-Type": "application/json" } }); });
+  const text = await c.exportText();
+  assert.equal(await evidenceBlob(text).text(), exactEvidence);
+  assert.equal(request.path, "./api/export"); assert.equal(request.init.method, "GET");
+  assert.equal(request.init.headers["X-Demo-Session"], "session"); assert.equal(request.init.headers["X-Demo-Token"], "token");
+  assert.equal(published.length, 0); assert.equal(c.state.revision, 0);
+  // This is the failure control: parse/stringify cannot retain the hash input.
+  const rewritten = JSON.stringify(JSON.parse(rawSnapshot));
+  assert.notEqual(crypto.createHash("sha256").update(rewritten).digest("hex"), snapshotHash);
+  assert.match(text, /"currentTime":8\.0/); assert.match(text, /"processedHours":0\.0/);
+});
+
+test("failed, malformed or non-JSON export cannot become downloadable evidence", async () => {
+  for (const response of [new Response('{"error":{"message":"Not available"}}', { status: 409, headers: { "Content-Type": "application/json" } }),
+                          new Response("{", { headers: { "Content-Type": "application/json" } }),
+                          new Response("{}", { headers: { "Content-Type": "application/json" } }),
+                          new Response(exactEvidence, { headers: { "Content-Type": "text/html" } })]) {
+    const { c, published } = client(async () => response);
+    await assert.rejects(c.exportText()); assert.equal(published.length, 0); assert.equal(c.state.revision, 0);
+  }
+  assert.throws(() => evidenceBlob({}), /evidence could not be read/);
+});
+
+test("recorded page's download button uses the embedded exact evidence text", async () => {
+  const nodes = new Map(); let captured, clicks = 0;
+  function node(id) { if (!nodes.has(id)) nodes.set(id, { textContent: "", hidden: false, disabled: true, options: [], events: {}, addEventListener(type, fn) { this.events[type] = fn; } }); return nodes.get(id); }
+  const recordedState = { ...state(4, 8), horizon: 10, machines: ["M1"], metrics: { onTimeUnits: 4, tardyUnits: 0 }, notice: "Recorded", provenance: { sourceCommit: "source", workingTreeClean: true, inputHash: "input" } };
+  const document = { documentElement: { dataset: { mode: "recorded" } }, getElementById: node, querySelector: () => node("originalChoice"), createElement: () => ({ click() { clicks++; } }) };
+  const context = vm.createContext({ document, Blob, URL: { createObjectURL(blob) { captured = blob; return "blob:fixture"; }, revokeObjectURL() {} }, setTimeout() {},
+    fetch: async () => ({ ok: true, json: async () => ({ frames: [{ title: "Final", description: "Recorded execution", state: recordedState, evidence: JSON.parse(exactEvidence), evidenceJSON: exactEvidence }] }) }) });
+  vm.runInContext(fs.readFileSync(path.join(__dirname, "../mpa/demo_assets/app.js"), "utf8"), context);
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(Boolean(node("download").disabled), false);
+  await node("download").events.click();
+  const downloaded = await captured.text();
+  assert.equal(clicks, 1);
+  assert.match(downloaded, /"currentTime"\s*:\s*8\.0\b/);
+  assert.match(downloaded, /"processedHours"\s*:\s*0\.0\b/);
+  assert.equal(downloaded, exactEvidence);
+  assert.equal(node("error").hidden, true);
+});
 
 test("single-flight admission uses one current revision", async () => {
   let resolve, calls = 0, body;

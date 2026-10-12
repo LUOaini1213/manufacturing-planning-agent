@@ -6,6 +6,7 @@ from pathlib import Path
 import pytest
 
 from scripts.build_demo import ROOT, build, check
+from mpa.rolling import advance_confirmed, snapshot_hash
 
 
 def test_recording_uses_actual_two_events_and_keeps_original_artifacts(tmp_path):
@@ -20,6 +21,19 @@ def test_recording_uses_actual_two_events_and_keeps_original_artifacts(tmp_path)
     assert first["baseline"]["metrics"]["unfinishedUnits"] == 2 and first["candidate"]["metrics"]["unfinishedUnits"] == 0
     last = recorded["frames"][-1]["evidence"]
     assert last["metrics"]["onTimeUnits"] == 4 and len(last["history"]) == 2
+    for frame in recorded["frames"]:
+        # Parse the exact browser download, then independently recompute Python's
+        # hash rather than accepting a JSON-equivalent JS reserialization.
+        downloaded = json.loads(frame["evidenceJSON"])
+        assert downloaded == frame["evidence"]
+        assert snapshot_hash(downloaded["snapshot"]) == downloaded["snapshotHash"]
+        for decision in downloaded["history"]:
+            report = decision["report"]
+            assert snapshot_hash(report["snapshot"]) == report["snapshotHash"] == decision["beforeHash"]
+            continued = advance_confirmed(downloaded["scenario"], report["snapshot"], report, decision["until"], choice=decision["choice"], confirmed=True)
+            assert snapshot_hash(continued) == decision["afterHash"]
+        if downloaded["history"]:
+            assert downloaded["history"][-1]["afterHash"] == downloaded["snapshotHash"]
     assert recorded["frames"][0]["state"]["snapshot"]["executedPrefix"] == last["snapshot"]["executedPrefix"][:3]
     assert not any(word in json.dumps(recorded) for word in ['"token"', '"sessionId"', '"proposalId"', '"resumeToken"'])
     assert all(p.read_bytes() == raw for p, raw in originals.items())

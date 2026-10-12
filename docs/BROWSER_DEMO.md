@@ -23,6 +23,14 @@ A/1's fabrication committed on M1 (0.5 h processed, 1 h remaining).
    or last comparison, every confirmed report and before/after snapshot hashes,
    exact placements/trace, and engine/API/frontend/input source fingerprints.
 
+Downloads preserve the original Python-generated JSON text rather than
+reserializing JavaScript numbers. This matters because the existing snapshot
+hash distinguishes `8.0` from `8`. The local download uses the raw export HTTP
+body; each recorded frame embeds its exact Python-generated evidence text.
+Loading the downloaded file in Python and applying `mpa.rolling.snapshot_hash`
+to its `snapshot` reproduces `snapshotHash`, including the confirmed history's
+before/after snapshots. Displayed numbers may be shortened for readability.
+
 An invalid event does not alter the execution or pending comparison. A valid
 new comparison replaces an earlier proposal and has its own revision/ID. A
 missing, failed or worse candidate cannot be confirmed; original routes remain

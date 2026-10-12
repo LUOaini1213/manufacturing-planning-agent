@@ -31,7 +31,8 @@ def record(source=None):
         state, evidence = session.view(), session.export()
         state.pop("proposalId")
         state["mode"] = evidence["mode"] = "recorded"
-        frames.append({"title": title, "description": description, "state": deepcopy(state), "evidence": deepcopy(evidence)})
+        frames.append({"title": title, "description": description, "state": deepcopy(state), "evidence": deepcopy(evidence),
+                       "evidenceJSON": json.dumps(evidence, ensure_ascii=False, indent=2, allow_nan=False) + "\n"})
 
     capture("1 · Execution frozen at hour 2", "A/0 is finished; A/1 has used 0.5 fabrication hours on M1, with 1 hour remaining.")
     session.compare({"revision": session.revision, "event": {"machine": "M1", "start": 2, "end": 6}})

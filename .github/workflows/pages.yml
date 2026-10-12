@@ -1,0 +1,49 @@
+name: Recorded planning replay
+on:
+  pull_request:
+    paths:
+      - 'mpa/**'
+      - 'scripts/build_demo.py'
+      - 'scenarios/rolling_outage.json'
+      - 'requirements*.txt'
+      - 'tests/test_demo*'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: python -m pip install -r requirements.txt
+      - run: node --check mpa/demo_assets/app.js
+      - run: node --test tests/test_demo_client.cjs
+      - run: python scripts/build_demo.py --require-clean
+      - run: python scripts/build_demo.py --check --require-clean
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/pages
+  deploy:
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    concurrency:
+      group: manufacturing-recorded-pages
+      cancel-in-progress: false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment

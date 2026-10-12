@@ -1,0 +1,871 @@
+{
+  "schemaVersion": 1,
+  "currentTime": 2.0,
+  "snapshotHash": "9fab1a521a1f9d86ef4b711bf93e8bdcf70546c31fd73defdef837059b5717e4",
+  "scenarioHash": "c041edcbce1e6cedcbefb5df21d85d0eee00b2c5c689ff37d7dbe6be2493ce94",
+  "events": [
+    {
+      "machine": "M1",
+      "start": 2.0,
+      "end": 6.0
+    }
+  ],
+  "snapshot": {
+    "schemaVersion": 1,
+    "scenarioHash": "c041edcbce1e6cedcbefb5df21d85d0eee00b2c5c689ff37d7dbe6be2493ce94",
+    "currentTime": 2.0,
+    "overtime": [],
+    "events": [],
+    "operations": [
+      {
+        "order": "A",
+        "unit": 0,
+        "stage": "fab",
+        "state": "completed",
+        "machine": "M1",
+        "plannedPeriod": 0,
+        "plannedStart": 0.0,
+        "requiredHours": 1.5,
+        "processedHours": 1.5,
+        "remainingHours": 0.0,
+        "startedAt": 0.0,
+        "completedAt": 1.5
+      },
+      {
+        "order": "A",
+        "unit": 0,
+        "stage": "test",
+        "state": "completed",
+        "machine": "M3",
+        "plannedPeriod": 0,
+        "plannedStart": 0.0,
+        "requiredHours": 0.5,
+        "processedHours": 0.5,
+        "remainingHours": 0.0,
+        "startedAt": 1.5,
+        "completedAt": 2.0
+      },
+      {
+        "order": "A",
+        "unit": 1,
+        "stage": "fab",
+        "state": "wip",
+        "machine": "M1",
+        "plannedPeriod": 0,
+        "plannedStart": 0.0,
+        "requiredHours": 1.5,
+        "processedHours": 0.5,
+        "remainingHours": 1.0,
+        "startedAt": 1.5,
+        "completedAt": null
+      },
+      {
+        "order": "A",
+        "unit": 1,
+        "stage": "test",
+        "state": "unstarted",
+        "machine": "M3",
+        "plannedPeriod": 0,
+        "plannedStart": 0.0,
+        "requiredHours": 0.5,
+        "processedHours": 0.0,
+        "remainingHours": 0.5,
+        "startedAt": null,
+        "completedAt": null
+      },
+      {
+        "order": "B",
+        "unit": 0,
+        "stage": "fab",
+        "state": "unstarted",
+        "machine": "M1",
+        "plannedPeriod": 0,
+        "plannedStart": 0.0,
+        "requiredHours": 1,
+        "processedHours": 0.0,
+        "remainingHours": 1,
+        "startedAt": null,
+        "completedAt": null
+      },
+      {
+        "order": "B",
+        "unit": 0,
+        "stage": "test",
+        "state": "unstarted",
+        "machine": "M3",
+        "plannedPeriod": 0,
+        "plannedStart": 0.0,
+        "requiredHours": 0.5,
+        "processedHours": 0.0,
+        "remainingHours": 0.5,
+        "startedAt": null,
+        "completedAt": null
+      },
+      {
+        "order": "B",
+        "unit": 1,
+        "stage": "fab",
+        "state": "unstarted",
+        "machine": "M1",
+        "plannedPeriod": 0,
+        "plannedStart": 0.0,
+        "requiredHours": 1,
+        "processedHours": 0.0,
+        "remainingHours": 1,
+        "startedAt": null,
+        "completedAt": null
+      },
+      {
+        "order": "B",
+        "unit": 1,
+        "stage": "test",
+        "state": "unstarted",
+        "machine": "M3",
+        "plannedPeriod": 0,
+        "plannedStart": 0.0,
+        "requiredHours": 0.5,
+        "processedHours": 0.0,
+        "remainingHours": 0.5,
+        "startedAt": null,
+        "completedAt": null
+      }
+    ],
+    "executedPrefix": [
+      {
+        "order": "A",
+        "unit": 0,
+        "stage": "fab",
+        "machine": "M1",
+        "start": 0.0,
+        "end": 1.5,
+        "period": 0,
+        "overtimeHours": 0
+      },
+      {
+        "order": "A",
+        "unit": 0,
+        "stage": "test",
+        "machine": "M3",
+        "start": 1.5,
+        "end": 2.0,
+        "period": 0,
+        "overtimeHours": 0
+      },
+      {
+        "order": "A",
+        "unit": 1,
+        "stage": "fab",
+        "machine": "M1",
+        "start": 1.5,
+        "end": 2.0,
+        "period": 0,
+        "overtimeHours": 0.0
+      }
+    ],
+    "startCommitments": [
+      {
+        "order": "A",
+        "unit": 0,
+        "stage": "fab",
+        "machine": "M1",
+        "time": 0.0,
+        "eventCount": 0
+      },
+      {
+        "order": "A",
+        "unit": 0,
+        "stage": "test",
+        "machine": "M3",
+        "time": 1.5,
+        "eventCount": 0
+      },
+      {
+        "order": "A",
+        "unit": 1,
+        "stage": "fab",
+        "machine": "M1",
+        "time": 1.5,
+        "eventCount": 0
+      }
+    ]
+  },
+  "policy": "cost_min",
+  "model_calls": 0,
+  "needs_human_confirm": true,
+  "baseline": {
+    "metrics": {
+      "onTimeUnits": 2,
+      "tardyUnits": 0,
+      "unfinishedUnits": 2,
+      "actualOvertimeHours": 0.0,
+      "reservedOvertimeHours": 0
+    },
+    "state": {
+      "schemaVersion": 1,
+      "scenarioHash": "c041edcbce1e6cedcbefb5df21d85d0eee00b2c5c689ff37d7dbe6be2493ce94",
+      "currentTime": 10.0,
+      "overtime": [],
+      "events": [
+        {
+          "machine": "M1",
+          "start": 2.0,
+          "end": 6.0
+        }
+      ],
+      "operations": [
+        {
+          "order": "A",
+          "unit": 0,
+          "stage": "fab",
+          "state": "completed",
+          "machine": "M1",
+          "plannedPeriod": 0,
+          "plannedStart": 0.0,
+          "requiredHours": 1.5,
+          "processedHours": 1.5,
+          "remainingHours": 0.0,
+          "startedAt": 0.0,
+          "completedAt": 1.5
+        },
+        {
+          "order": "A",
+          "unit": 0,
+          "stage": "test",
+          "state": "completed",
+          "machine": "M3",
+          "plannedPeriod": 0,
+          "plannedStart": 0.0,
+          "requiredHours": 0.5,
+          "processedHours": 0.5,
+          "remainingHours": 0.0,
+          "startedAt": 1.5,
+          "completedAt": 2.0
+        },
+        {
+          "order": "A",
+          "unit": 1,
+          "stage": "fab",
+          "state": "completed",
+          "machine": "M1",
+          "plannedPeriod": 0,
+          "plannedStart": 0.0,
+          "requiredHours": 1.5,
+          "processedHours": 1.5,
+          "remainingHours": 0.0,
+          "startedAt": 1.5,
+          "completedAt": 7.0
+        },
+        {
+          "order": "A",
+          "unit": 1,
+          "stage": "test",
+          "state": "completed",
+          "machine": "M3",
+          "plannedPeriod": 0,
+          "plannedStart": 0.0,
+          "requiredHours": 0.5,
+          "processedHours": 0.5,
+          "remainingHours": 0.0,
+          "startedAt": 7.0,
+          "completedAt": 7.5
+        },
+        {
+          "order": "B",
+          "unit": 0,
+          "stage": "fab",
+          "state": "completed",
+          "machine": "M1",
+          "plannedPeriod": 0,
+          "plannedStart": 0.0,
+          "requiredHours": 1,
+          "processedHours": 1.0,
+          "remainingHours": 0.0,
+          "startedAt": 7.0,
+          "completedAt": 8.0
+        },
+        {
+          "order": "B",
+          "unit": 0,
+          "stage": "test",
+          "state": "unstarted",
+          "machine": "M3",
+          "plannedPeriod": 0,
+          "plannedStart": 0.0,
+          "requiredHours": 0.5,
+          "processedHours": 0.0,
+          "remainingHours": 0.5,
+          "startedAt": null,
+          "completedAt": null
+        },
+        {
+          "order": "B",
+          "unit": 1,
+          "stage": "fab",
+          "state": "unstarted",
+          "machine": "M1",
+          "plannedPeriod": 0,
+          "plannedStart": 0.0,
+          "requiredHours": 1,
+          "processedHours": 0.0,
+          "remainingHours": 1,
+          "startedAt": null,
+          "completedAt": null
+        },
+        {
+          "order": "B",
+          "unit": 1,
+          "stage": "test",
+          "state": "unstarted",
+          "machine": "M3",
+          "plannedPeriod": 0,
+          "plannedStart": 0.0,
+          "requiredHours": 0.5,
+          "processedHours": 0.0,
+          "remainingHours": 0.5,
+          "startedAt": null,
+          "completedAt": null
+        }
+      ],
+      "executedPrefix": [
+        {
+          "order": "A",
+          "unit": 0,
+          "stage": "fab",
+          "machine": "M1",
+          "start": 0.0,
+          "end": 1.5,
+          "period": 0,
+          "overtimeHours": 0
+        },
+        {
+          "order": "A",
+          "unit": 0,
+          "stage": "test",
+          "machine": "M3",
+          "start": 1.5,
+          "end": 2.0,
+          "period": 0,
+          "overtimeHours": 0
+        },
+        {
+          "order": "A",
+          "unit": 1,
+          "stage": "fab",
+          "machine": "M1",
+          "start": 1.5,
+          "end": 2.0,
+          "period": 0,
+          "overtimeHours": 0.0
+        },
+        {
+          "order": "A",
+          "unit": 1,
+          "stage": "fab",
+          "machine": "M1",
+          "start": 6.0,
+          "end": 7.0,
+          "period": 0,
+          "overtimeHours": 0
+        },
+        {
+          "order": "A",
+          "unit": 1,
+          "stage": "test",
+          "machine": "M3",
+          "start": 7.0,
+          "end": 7.5,
+          "period": 0,
+          "overtimeHours": 0
+        },
+        {
+          "order": "B",
+          "unit": 0,
+          "stage": "fab",
+          "machine": "M1",
+          "start": 7.0,
+          "end": 8.0,
+          "period": 0,
+          "overtimeHours": 0
+        }
+      ],
+      "startCommitments": [
+        {
+          "order": "A",
+          "unit": 0,
+          "stage": "fab",
+          "machine": "M1",
+          "time": 0.0,
+          "eventCount": 0
+        },
+        {
+          "order": "A",
+          "unit": 0,
+          "stage": "test",
+          "machine": "M3",
+          "time": 1.5,
+          "eventCount": 0
+        },
+        {
+          "order": "A",
+          "unit": 1,
+          "stage": "fab",
+          "machine": "M1",
+          "time": 1.5,
+          "eventCount": 0
+        },
+        {
+          "order": "A",
+          "unit": 1,
+          "stage": "test",
+          "machine": "M3",
+          "time": 7.0,
+          "eventCount": 1
+        },
+        {
+          "order": "B",
+          "unit": 0,
+          "stage": "fab",
+          "machine": "M1",
+          "time": 7.0,
+          "eventCount": 1
+        }
+      ]
+    },
+    "policyScore": 400.0
+  },
+  "solver": {
+    "ok": true,
+    "status": "optimal_on_conservative_grid",
+    "placements": [
+      {
+        "order": "A",
+        "unit": 1,
+        "stage": "fab",
+        "machine": "M1",
+        "holdStart": 2.0,
+        "segments": [
+          {
+            "start": 6.0,
+            "end": 7.0,
+            "period": 0,
+            "overtimeHours": 0
+          }
+        ],
+        "remainingHours": 0
+      },
+      {
+        "order": "A",
+        "unit": 1,
+        "stage": "test",
+        "machine": "M3",
+        "holdStart": 7.5,
+        "segments": [
+          {
+            "start": 7.5,
+            "end": 8.0,
+            "period": 0,
+            "overtimeHours": 0
+          }
+        ],
+        "remainingHours": 0
+      },
+      {
+        "order": "B",
+        "unit": 0,
+        "stage": "fab",
+        "machine": "M2",
+        "holdStart": 3.5,
+        "segments": [
+          {
+            "start": 3.5,
+            "end": 4.5,
+            "period": 0,
+            "overtimeHours": 0
+          }
+        ],
+        "remainingHours": 0
+      },
+      {
+        "order": "B",
+        "unit": 0,
+        "stage": "test",
+        "machine": "M3",
+        "holdStart": 5.5,
+        "segments": [
+          {
+            "start": 5.5,
+            "end": 6.0,
+            "period": 0,
+            "overtimeHours": 0
+          }
+        ],
+        "remainingHours": 0
+      },
+      {
+        "order": "B",
+        "unit": 1,
+        "stage": "fab",
+        "machine": "M2",
+        "holdStart": 2.0,
+        "segments": [
+          {
+            "start": 2.0,
+            "end": 3.0,
+            "period": 0,
+            "overtimeHours": 0
+          }
+        ],
+        "remainingHours": 0
+      },
+      {
+        "order": "B",
+        "unit": 1,
+        "stage": "test",
+        "machine": "M3",
+        "holdStart": 3.0,
+        "segments": [
+          {
+            "start": 3.0,
+            "end": 3.5,
+            "period": 0,
+            "overtimeHours": 0
+          }
+        ],
+        "remainingHours": 0
+      }
+    ],
+    "gridStep": 0.5,
+    "mipGap": 0.0,
+    "candidateCount": 64,
+    "scope": "future routing/sequencing with frozen authorized overtime; not continuous-time global optimality"
+  },
+  "candidate": {
+    "metrics": {
+      "onTimeUnits": 4,
+      "tardyUnits": 0,
+      "unfinishedUnits": 0,
+      "actualOvertimeHours": 0.0,
+      "reservedOvertimeHours": 0
+    },
+    "state": {
+      "schemaVersion": 1,
+      "scenarioHash": "c041edcbce1e6cedcbefb5df21d85d0eee00b2c5c689ff37d7dbe6be2493ce94",
+      "currentTime": 10.0,
+      "overtime": [],
+      "events": [
+        {
+          "machine": "M1",
+          "start": 2.0,
+          "end": 6.0
+        }
+      ],
+      "operations": [
+        {
+          "order": "A",
+          "unit": 0,
+          "stage": "fab",
+          "state": "completed",
+          "machine": "M1",
+          "plannedPeriod": 0,
+          "plannedStart": 0.0,
+          "requiredHours": 1.5,
+          "processedHours": 1.5,
+          "remainingHours": 0.0,
+          "startedAt": 0.0,
+          "completedAt": 1.5
+        },
+        {
+          "order": "A",
+          "unit": 0,
+          "stage": "test",
+          "state": "completed",
+          "machine": "M3",
+          "plannedPeriod": 0,
+          "plannedStart": 0.0,
+          "requiredHours": 0.5,
+          "processedHours": 0.5,
+          "remainingHours": 0.0,
+          "startedAt": 1.5,
+          "completedAt": 2.0
+        },
+        {
+          "order": "A",
+          "unit": 1,
+          "stage": "fab",
+          "state": "completed",
+          "machine": "M1",
+          "plannedPeriod": 0,
+          "plannedStart": 0.0,
+          "requiredHours": 1.5,
+          "processedHours": 1.5,
+          "remainingHours": 0.0,
+          "startedAt": 1.5,
+          "completedAt": 7.0
+        },
+        {
+          "order": "A",
+          "unit": 1,
+          "stage": "test",
+          "state": "completed",
+          "machine": "M3",
+          "plannedPeriod": 0,
+          "plannedStart": 7.5,
+          "requiredHours": 0.5,
+          "processedHours": 0.5,
+          "remainingHours": 0.0,
+          "startedAt": 7.5,
+          "completedAt": 8.0
+        },
+        {
+          "order": "B",
+          "unit": 0,
+          "stage": "fab",
+          "state": "completed",
+          "machine": "M2",
+          "plannedPeriod": 0,
+          "plannedStart": 3.5,
+          "requiredHours": 1.0,
+          "processedHours": 1.0,
+          "remainingHours": 0.0,
+          "startedAt": 3.5,
+          "completedAt": 4.5
+        },
+        {
+          "order": "B",
+          "unit": 0,
+          "stage": "test",
+          "state": "completed",
+          "machine": "M3",
+          "plannedPeriod": 0,
+          "plannedStart": 5.5,
+          "requiredHours": 0.5,
+          "processedHours": 0.5,
+          "remainingHours": 0.0,
+          "startedAt": 5.5,
+          "completedAt": 6.0
+        },
+        {
+          "order": "B",
+          "unit": 1,
+          "stage": "fab",
+          "state": "completed",
+          "machine": "M2",
+          "plannedPeriod": 0,
+          "plannedStart": 2.0,
+          "requiredHours": 1.0,
+          "processedHours": 1.0,
+          "remainingHours": 0.0,
+          "startedAt": 2.0,
+          "completedAt": 3.0
+        },
+        {
+          "order": "B",
+          "unit": 1,
+          "stage": "test",
+          "state": "completed",
+          "machine": "M3",
+          "plannedPeriod": 0,
+          "plannedStart": 3.0,
+          "requiredHours": 0.5,
+          "processedHours": 0.5,
+          "remainingHours": 0.0,
+          "startedAt": 3.0,
+          "completedAt": 3.5
+        }
+      ],
+      "executedPrefix": [
+        {
+          "order": "A",
+          "unit": 0,
+          "stage": "fab",
+          "machine": "M1",
+          "start": 0.0,
+          "end": 1.5,
+          "period": 0,
+          "overtimeHours": 0
+        },
+        {
+          "order": "A",
+          "unit": 0,
+          "stage": "test",
+          "machine": "M3",
+          "start": 1.5,
+          "end": 2.0,
+          "period": 0,
+          "overtimeHours": 0
+        },
+        {
+          "order": "A",
+          "unit": 1,
+          "stage": "fab",
+          "machine": "M1",
+          "start": 1.5,
+          "end": 2.0,
+          "period": 0,
+          "overtimeHours": 0.0
+        },
+        {
+          "order": "B",
+          "unit": 1,
+          "stage": "fab",
+          "machine": "M2",
+          "start": 2.0,
+          "end": 3.0,
+          "period": 0,
+          "overtimeHours": 0
+        },
+        {
+          "order": "B",
+          "unit": 1,
+          "stage": "test",
+          "machine": "M3",
+          "start": 3.0,
+          "end": 3.5,
+          "period": 0,
+          "overtimeHours": 0
+        },
+        {
+          "order": "B",
+          "unit": 0,
+          "stage": "fab",
+          "machine": "M2",
+          "start": 3.5,
+          "end": 4.5,
+          "period": 0,
+          "overtimeHours": 0
+        },
+        {
+          "order": "B",
+          "unit": 0,
+          "stage": "test",
+          "machine": "M3",
+          "start": 5.5,
+          "end": 6.0,
+          "period": 0,
+          "overtimeHours": 0
+        },
+        {
+          "order": "A",
+          "unit": 1,
+          "stage": "fab",
+          "machine": "M1",
+          "start": 6.0,
+          "end": 7.0,
+          "period": 0,
+          "overtimeHours": 0
+        },
+        {
+          "order": "A",
+          "unit": 1,
+          "stage": "test",
+          "machine": "M3",
+          "start": 7.5,
+          "end": 8.0,
+          "period": 0,
+          "overtimeHours": 0
+        }
+      ],
+      "startCommitments": [
+        {
+          "order": "A",
+          "unit": 0,
+          "stage": "fab",
+          "machine": "M1",
+          "time": 0.0,
+          "eventCount": 0
+        },
+        {
+          "order": "A",
+          "unit": 0,
+          "stage": "test",
+          "machine": "M3",
+          "time": 1.5,
+          "eventCount": 0
+        },
+        {
+          "order": "A",
+          "unit": 1,
+          "stage": "fab",
+          "machine": "M1",
+          "time": 1.5,
+          "eventCount": 0
+        },
+        {
+          "order": "B",
+          "unit": 1,
+          "stage": "fab",
+          "machine": "M2",
+          "time": 2.0,
+          "eventCount": 1
+        },
+        {
+          "order": "B",
+          "unit": 1,
+          "stage": "test",
+          "machine": "M3",
+          "time": 3.0,
+          "eventCount": 1
+        },
+        {
+          "order": "B",
+          "unit": 0,
+          "stage": "fab",
+          "machine": "M2",
+          "time": 3.5,
+          "eventCount": 1
+        },
+        {
+          "order": "B",
+          "unit": 0,
+          "stage": "test",
+          "machine": "M3",
+          "time": 5.5,
+          "eventCount": 1
+        },
+        {
+          "order": "A",
+          "unit": 1,
+          "stage": "test",
+          "machine": "M3",
+          "time": 7.5,
+          "eventCount": 1
+        }
+      ]
+    },
+    "policyScore": 0.0
+  },
+  "recommendation": "candidate",
+  "reason": "audited future proposal is no worse under the selected policy; awaiting human confirmation",
+  "provenance": {
+    "generated_at": "2026-10-12T02:56:29.720058+00:00",
+    "python": "3.11.17",
+    "dependencies": {
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "simpy": "4.1.2"
+    },
+    "hash_convention": "SHA256 of UTF-8 text with CRLF normalized to LF",
+    "sha256": {
+      "mpa/__init__.py": "aa7d4fb7272854cb4039472c3ae1e4c59163f7e0d99d5b16a04669231adac15f",
+      "mpa/agent.py": "540c671453875fc37692f9a3121ffaed75c5853eae31a6ef802a3a34c35323f7",
+      "mpa/clsp.py": "5d0e17d0e2788d45277f6fbb5db066424b0b16fbc69066d835a1c7f7a3126ee7",
+      "mpa/evaluate.py": "46d9ab09619651e4505caa793e1b74418ed34f9726e5d04e5c997190b4605445",
+      "mpa/reporting.py": "a8684185c28c371b8d35967642c6433d595e8ff0eab7d0bc2b477d971cd7eb2d",
+      "mpa/rolling.py": "d2c97909ec562661377fdbd5f69425858270b25187a6d96f908bd4b779ad93c7",
+      "mpa/rolling_solver.py": "bbe7c68cda3f8840f70d0c5880046c8a6e0c9faa2369291304e7e60ccef49c86",
+      "mpa/rolling_state.py": "9340e7148b2917758624dc32af0ad1512b160317d0a61ded9f01ae69c801eab0",
+      "mpa/rules.py": "464d39e3df980ca51c7cbdfbbe3ff0ef6b5e560b9169dd0a325aa218e60378f5",
+      "mpa/scenario.py": "e8586d4ca36f34f84b0329f6174deefaab881308216fd4efdff4aa88ede5266d",
+      "mpa/simulate.py": "9410cba34ffc1f40ebb3dbb2d9128dc5a9d8dfd6fcb4fc4e07d6159423e21269",
+      "mpa/solve.py": "c3a775c57adfc4a9f3dca50f29141f0c8b799d2fc630a729d41a5d53e839bc69",
+      "mpa/workflow.py": "2e3a918b54a824dae8845b8341f7147741133fc7ab2750cb6d27fce25ee72691",
+      "scenarios/rolling_outage.json": "3cf8cc2f02680ab707170c84df6ab916a9f34cc48c61aad69997e5b124b921e0"
+    },
+    "input": {
+      "name": "rolling_outage.json",
+      "sha256": "3cf8cc2f02680ab707170c84df6ab916a9f34cc48c61aad69997e5b124b921e0"
+    },
+    "source_commit": "9181eb71596bf597171e2d7093380faf699baa2c",
+    "working_tree_clean": true
+  }
+}

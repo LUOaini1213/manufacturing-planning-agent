@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from mpa.scenario import clone_with_availability, missing_availability
+from mpa.scenario import apply_breakdown, missing_availability, normalize
 from mpa.simulate import simulate
 from mpa.solve import solve
 
@@ -10,6 +10,7 @@ RELAX_MARKERS = ("改到最后", "放宽交期", "改交期", "准时率变成 1
 
 
 def run(scenario: dict) -> dict:
+    scenario = normalize(scenario)
     log: list[dict] = []
     request = scenario.get("request") or ""
     if any(marker in request for marker in RELAX_MARKERS):
@@ -62,10 +63,12 @@ def run(scenario: dict) -> dict:
             "tardy_units": sim["tardy_units"],
             "on_time_units": sim["on_time_units"],
             "makespan": sim["makespan"],
+            "unfinished_units": sim["unfinished_units"],
         }
     )
 
     sim_worse = sim["on_time_units"] < plan["on_time_units"] or sim["unfinished_units"] > plan["unfinished_units"]
+    first_sim = sim
     if sim_worse and scenario.get("sim_breakdown"):
         replanned, sim = _replan_once(scenario, sim, log)
     else:
@@ -81,7 +84,10 @@ def run(scenario: dict) -> dict:
             "denied_relax": any(item.get("tool") == "relax_due_dates" for item in log),
         }
     )
-    return _result("pending confirmation", chosen, sim, log, replanned is not None)
+    result = _result("pending confirmation", chosen, sim, log, replanned is not None)
+    result["initial_plan"] = plan
+    result["first_simulation"] = first_sim
+    return result
 
 
 def _select_policy(scenario: dict, log: list[dict]) -> str:
@@ -113,8 +119,8 @@ def _replan_once(scenario: dict, sim: dict, log: list[dict]):
     breakdown = scenario["sim_breakdown"]
     machine = next(item for item in scenario["machines"] if item["id"] == breakdown["machine"])
     current = float(machine["available"][breakdown["period"]])
-    reduced = max(0.0, current - float(breakdown["hours"]))
-    updated = clone_with_availability(scenario, breakdown["machine"], breakdown["period"], reduced)
+    updated = apply_breakdown(scenario, breakdown)
+    reduced = next(item for item in updated["machines"] if item["id"] == breakdown["machine"])["available"][breakdown["period"]]
     policy = next(item["choice"] for item in log if item["tool"] == "select_policy")
     plan = solve(updated, policy)
     log.append(
@@ -129,8 +135,23 @@ def _replan_once(scenario: dict, sim: dict, log: list[dict]):
     if not plan["ok"]:
         return None, sim
     checked = simulate(updated, plan, None)
-    log.append({"tool": "simulate", "which": "replanned", "on_time_units": checked["on_time_units"], "tardy_units": checked["tardy_units"]})
+    log.append({"tool": "simulate", "which": "replanned", "on_time_units": checked["on_time_units"], "tardy_units": checked["tardy_units"], "unfinished_units": checked["unfinished_units"]})
+    old_score = _replay_score(scenario, sim, policy)
+    new_score = _replay_score(scenario, checked, policy)
+    accepted = new_score <= old_score + 1e-6
+    log.append({"tool": "compare_replays", "policy": policy, "initial_score": old_score,
+                "candidate_score": new_score, "accepted": accepted,
+                "scope": "offline full-horizon alternatives, not live dispatch"})
+    if not accepted:
+        return None, sim
     return plan, checked
+
+
+def _replay_score(scenario: dict, replay: dict, policy: str) -> float:
+    weights = scenario["policies"][policy]
+    return (replay["tardy_units"] * weights["tardiness"]
+            + replay["unfinished_units"] * weights["unfinished"]
+            + replay["scheduled_overtime_hours"] * weights["overtime"])
 
 
 def _result(note: str, plan: dict, sim: dict | None, log: list[dict], replanned: bool = False) -> dict:

@@ -2,14 +2,81 @@
 
 from __future__ import annotations
 
+import argparse
 import json
+import math
+from collections.abc import Mapping
+from numbers import Integral, Real
 from pathlib import Path
 
 import numpy as np
 from scipy.optimize import Bounds, LinearConstraint, milp
 
+from .reporting import provenance
+
 ROOT = Path(__file__).resolve().parents[1]
 F1 = ROOT / "data" / "trigeiro" / "F1.DAT"
+
+
+def _nonnegative(value, label: str) -> None:
+    try:
+        valid = (not isinstance(value, bool) and isinstance(value, Real)
+                 and math.isfinite(value) and value >= 0)
+    except (OverflowError, TypeError, ValueError):
+        valid = False
+    if not valid:
+        raise ValueError(f"{label} must be a finite nonnegative number, not a boolean")
+
+
+def _sequence(value, length: int, label: str) -> None:
+    if (not isinstance(value, (list, tuple, np.ndarray))
+            or (isinstance(value, np.ndarray) and value.ndim == 0)
+            or len(value) != length):
+        raise ValueError(f"{label} must contain exactly {length} entries")
+
+
+def _vector(value, length: int, label: str) -> None:
+    _sequence(value, length, label)
+    for i, number in enumerate(value):
+        _nonnegative(number, f"{label}[{i}]")
+
+
+def _matrix_shape(value, rows: int, columns: int, label: str) -> None:
+    _sequence(value, rows, label)
+    for i, row in enumerate(value):
+        _vector(row, columns, f"{label}[{i}]")
+
+
+def _validate_data(data: dict) -> None:
+    if not isinstance(data, Mapping):
+        raise ValueError("data must be a model mapping")
+    required = ("n_items", "n_periods", "capacity", "unit_time", "holding", "setup_time", "setup_cost", "demand")
+    for key in required:
+        if key not in data:
+            raise ValueError(f"model is missing {key}")
+    for key in ("n_items", "n_periods"):
+        value = data[key]
+        if isinstance(value, bool) or not isinstance(value, Integral) or value <= 0:
+            raise ValueError(f"{key} must be a positive integer")
+    _nonnegative(data["capacity"], "capacity")
+    for key in ("unit_time", "holding", "setup_time", "setup_cost"):
+        _vector(data[key], data["n_items"], key)
+    _matrix_shape(data["demand"], data["n_periods"], data["n_items"], "demand")
+
+
+def _finite_sum(values, label: str) -> float:
+    try:
+        total = math.fsum(values)
+    except (OverflowError, ValueError) as exc:
+        raise ValueError(f"{label} is not finite") from exc
+    if not math.isfinite(total):
+        raise ValueError(f"{label} is not finite")
+    return total
+
+
+def _roundoff(*values: float) -> float:
+    """IEEE accumulation slack, without a fixed tolerance that erases small lots."""
+    return 64 * math.ulp(max(abs(float(value)) for value in values))
 
 
 def load_trigeiro(path: Path = F1) -> dict:
@@ -18,15 +85,28 @@ def load_trigeiro(path: Path = F1) -> dict:
         parts = line.split()
         if not parts or not _is_number(parts[0]):
             continue
-        rows.append([float(piece) for piece in parts])
-    n_items = int(rows[0][0])
-    n_periods = int(rows[0][1])
+        try:
+            rows.append([float(piece) for piece in parts])
+        except ValueError as exc:
+            raise ValueError("Trigeiro records must be numeric") from exc
+    if len(rows) < 3 or len(rows[0]) != 2 or len(rows[1]) != 1 or len(rows[2]) != 1:
+        raise ValueError("Trigeiro header requires two dimensions, one marker and one capacity")
+    for value in rows[0]:
+        if not math.isfinite(value) or not value.is_integer() or value <= 0:
+            raise ValueError("Trigeiro dimensions must be positive integers")
+    n_items, n_periods = map(int, rows[0])
+    if len(rows) != 3 + n_items + n_periods:
+        raise ValueError("Trigeiro record count does not match the declared dimensions")
+    if not math.isfinite(rows[1][0]):
+        raise ValueError("Trigeiro marker must be finite")
     capacity = float(rows[2][0])
     items = rows[3 : 3 + n_items]
     demand_rows = rows[3 + n_items : 3 + n_items + n_periods]
-    if len(items) != n_items or len(demand_rows) != n_periods:
-        raise ValueError(f"F1 parse failed: items={len(items)} periods={len(demand_rows)}")
-    return {
+    if any(len(row) != 4 for row in items):
+        raise ValueError("Trigeiro item records must contain exactly four fields")
+    if any(len(row) != n_items for row in demand_rows):
+        raise ValueError("Trigeiro demand records must contain one field per item")
+    data = {
         "name": path.name,
         "n_items": n_items,
         "n_periods": n_periods,
@@ -37,14 +117,26 @@ def load_trigeiro(path: Path = F1) -> dict:
         "setup_cost": [row[3] for row in items],
         "demand": [[row[i] for i in range(n_items)] for row in demand_rows],
     }
+    _validate_data(data)
+    return data
 
 
-def solve_clsp(data: dict) -> dict:
+def solve_clsp(data: dict, *, binary_zero_tolerance: float = 1e-7) -> dict:
+    """Solve with zero MIP gap and independently audit the returned quantities.
+
+    binary_zero_tolerance only identifies an inactive solver setup variable.
+    Quantity cleanup remains bounded by 64 ULPs of total item demand; this
+    parameter never relaxes the independent capacity or demand checks.
+    """
+    _validate_data(data)
+    _nonnegative(binary_zero_tolerance, "binary_zero_tolerance")
+    if binary_zero_tolerance >= 0.5:
+        raise ValueError("binary_zero_tolerance must be less than 0.5")
     n = data["n_items"]
     periods = data["n_periods"]
     demand = data["demand"]
     big_m = [
-        [sum(demand[k][i] for k in range(t, periods)) for t in range(periods)]
+        [_finite_sum((demand[k][i] for k in range(t, periods)), "remaining demand") for t in range(periods)]
         for i in range(n)
     ]
     n_x = n * periods
@@ -103,27 +195,43 @@ def solve_clsp(data: dict) -> dict:
             np.array([low for _, low, _ in rows], dtype=float),
             np.array([high for _, _, high in rows], dtype=float),
         ),
-        options={"time_limit": 30.0},
+        options={"time_limit": 30.0, "mip_rel_gap": 0.0},
     )
     if not result.success or result.x is None:
         return {"ok": False, "status": int(result.status), "reason": result.message}
+    production = _matrix(result.x, x_index, n, periods)
+    # HiGHS leaves signed roundoff at zero bounds, including tiny positive x
+    # with setup=0. Normalize only this solver boundary, at the demand scale.
+    # audit() rejects external negatives and charges every external positive lot.
+    for item, lots in enumerate(production):
+        for period, qty in enumerate(lots):
+            inactive = abs(result.x[setup_index(item, period)]) <= binary_zero_tolerance
+            if inactive and abs(qty) <= _roundoff(big_m[item][0]):
+                lots[period] = 0.0
+    try:
+        checked = audit(data, production)
+        _nonnegative(result.fun, "solver objective")
+        if abs(checked["objective"] - round(float(result.fun), 4)) > 1e-4:
+            raise ValueError("solver objective does not match the independent production audit")
+    except ValueError as exc:
+        return {"ok": False, "status": "invalid_solution", "reason": str(exc)}
     return {
         "ok": True,
         "status": "optimal" if int(result.status) == 0 else int(result.status),
         "objective": round(float(result.fun), 4),
         "mip_gap": getattr(result, "mip_gap", None),
         "setups": int(round(float(result.x[2 * n_x :].sum()))),
-        "production": _matrix(result.x, x_index, n, periods),
+        "production": production,
         "inventory": _matrix(result.x, inventory_index, n, periods),
     }
 
 
 def lot_for_lot(data: dict) -> dict:
     """Place each period's demand in that period. Infeasible if one period cannot hold it."""
+    _validate_data(data)
     n = data["n_items"]
     periods = data["n_periods"]
     production = [[0.0 for _ in range(periods)] for _ in range(n)]
-    setups = [[0 for _ in range(periods)] for _ in range(n)]
     for period, row in enumerate(data["demand"]):
         used = 0.0
         for item, qty in enumerate(row):
@@ -131,10 +239,9 @@ def lot_for_lot(data: dict) -> dict:
                 continue
             used += data["unit_time"][item] * qty + data["setup_time"][item]
             production[item][period] = qty
-            setups[item][period] = 1
         if used > data["capacity"] + 1e-9:
             return {"ok": False, "status": "infeasible", "reason": f"period {period} needs {used:g} > {data['capacity']:g}"}
-    return {"ok": True, "status": "heuristic", **_cost_of(data, production, setups)}
+    return _heuristic_result(data, production)
 
 
 def shift_earlier(data: dict) -> dict:
@@ -143,6 +250,7 @@ def shift_earlier(data: dict) -> dict:
     The setup moves with the lot when the destination does not already make that item.
     Partial lots are not split, so a period can stay infeasible even when a smaller move would fit.
     """
+    _validate_data(data)
     n = data["n_items"]
     periods = data["n_periods"]
     production = [[float(data["demand"][period][item]) for period in range(periods)] for item in range(n)]
@@ -150,21 +258,20 @@ def shift_earlier(data: dict) -> dict:
         loads = [_load(data, production, period) for period in range(periods)]
         over = [period for period, load in enumerate(loads) if load > data["capacity"] + 1e-9]
         if not over:
-            setups = [[1 if production[item][period] > 1e-9 else 0 for period in range(periods)] for item in range(n)]
-            return {"ok": True, "status": "heuristic", **_cost_of(data, production, setups)}
+            return _heuristic_result(data, production)
         period = over[0]
         if period == 0:
             return {"ok": False, "status": "infeasible", "reason": "period 0 still over capacity"}
         moved = False
         candidates = sorted(
-            (item for item in range(n) if production[item][period] > 1e-9),
+            (item for item in range(n) if production[item][period] > 0),
             key=lambda candidate: data["setup_time"][candidate] + data["unit_time"][candidate] * production[candidate][period],
             reverse=True,
         )
         for item in candidates:
             qty = production[item][period]
             for slot in range(period - 1, -1, -1):
-                extra_setup = 0.0 if production[item][slot] > 1e-9 else data["setup_time"][item]
+                extra_setup = 0.0 if production[item][slot] > 0 else data["setup_time"][item]
                 added = data["unit_time"][item] * qty + extra_setup
                 if _load(data, production, slot) + added <= data["capacity"] + 1e-9:
                     production[item][slot] += qty
@@ -181,29 +288,29 @@ def shift_earlier(data: dict) -> dict:
 def _load(data: dict, production: list[list[float]], period: int) -> float:
     total = 0.0
     for item, lots in enumerate(production):
-        if lots[period] > 1e-9:
+        if lots[period] > 0:
             total += data["unit_time"][item] * lots[period] + data["setup_time"][item]
     return total
 
 
-def _cost_of(data: dict, production: list[list[float]], setups: list[list[int]]) -> dict:
+def _heuristic_result(data: dict, production: list[list[float]]) -> dict:
+    try:
+        checked = audit(data, production)
+    except ValueError as exc:
+        return {"ok": False, "status": "infeasible", "reason": str(exc)}
     n = data["n_items"]
     periods = data["n_periods"]
     inventory = [[0.0 for _ in range(periods)] for _ in range(n)]
-    cost = 0.0
     for item in range(n):
-        previous = 0.0
         for period in range(periods):
-            level = previous + production[item][period] - data["demand"][period][item]
-            if level < -1e-6:
-                raise ValueError("heuristic inventory went negative")
+            level = (math.fsum(production[item][:period + 1])
+                     - math.fsum(data["demand"][t][item] for t in range(period + 1)))
             inventory[item][period] = max(0.0, level)
-            previous = inventory[item][period]
-            cost += data["setup_cost"][item] * setups[item][period]
-            cost += data["holding"][item] * inventory[item][period]
     return {
-        "objective": round(cost, 4),
-        "setups": int(sum(sum(row) for row in setups)),
+        "ok": True,
+        "status": "heuristic",
+        "objective": checked["objective"],
+        "setups": sum(qty > 0 for row in production for qty in row),
         "production": production,
         "inventory": inventory,
     }
@@ -216,6 +323,7 @@ def merge_earlier(data: dict) -> dict:
     If a period is still over capacity, continue with the fold that adds the least
     cost per setup-hour removed. This can drop a setup that lot shifting keeps.
     """
+    _validate_data(data)
     n = data["n_items"]
     periods = data["n_periods"]
     production = [[float(data["demand"][period][item]) for period in range(periods)] for item in range(n)]
@@ -225,10 +333,10 @@ def merge_earlier(data: dict) -> dict:
         for item in range(n):
             for period in range(periods):
                 qty = production[item][period]
-                if qty <= 1e-9:
+                if qty <= 0:
                     continue
                 for slot in range(period):
-                    if production[item][slot] <= 1e-9:
+                    if production[item][slot] <= 0:
                         continue
                     added = data["unit_time"][item] * qty
                     if _load(data, production, slot) + added > data["capacity"] + 1e-6:
@@ -273,11 +381,10 @@ def merge_earlier(data: dict) -> dict:
                 "status": "infeasible",
                 "reason": f"period {period} still needs {used:g} > {data['capacity']:g}",
             }
-        apply(min(available, key=lambda row: ((-row[0]) / row[1], row[2])))
+        apply(min(available, key=lambda row: ((-row[0]) / row[1] if row[1] else math.inf, row[2])))
         guard += 1
 
-    setups = [[1 if production[item][period] > 1e-9 else 0 for period in range(periods)] for item in range(n)]
-    return {"ok": True, "status": "heuristic", **_cost_of(data, production, setups)}
+    return _heuristic_result(data, production)
 
 
 def coordinate_plan(data: dict) -> dict:
@@ -287,7 +394,12 @@ def coordinate_plan(data: dict) -> dict:
     move into a later period is moved when the holding saved exceeds any new setup.
     A later pass moves one lot off a tight period and replans the other items first, so
     freed capacity can remove one of their setups. The MIP solution is not an input.
+    Demand must be integer-valued; the other planners support continuous demand.
     """
+    _validate_data(data)
+    for row in data["demand"]:
+        for qty in row:
+            _whole(qty)
     merged = merge_earlier(data)
     if not merged["ok"]:
         return merged
@@ -372,6 +484,8 @@ def coordinate_plan(data: dict) -> dict:
             for item in range(n):
                 holding = data["holding"][item]
                 unit = data["unit_time"][item]
+                if unit == 0:
+                    continue
                 setup_time = data["setup_time"][item]
                 setup_cost = data["setup_cost"][item]
                 for src in range(periods):
@@ -471,52 +585,49 @@ def coordinate_plan(data: dict) -> dict:
     kick_tight_lots()
     delay_until_stable()
 
-    try:
-        audit(data, production)
-    except ValueError as exc:
-        return {"ok": False, "status": "infeasible", "reason": str(exc)}
-    setups = [[1 if production[item][period] > 1e-9 else 0 for period in range(periods)] for item in range(n)]
-    return {"ok": True, "status": "heuristic", **_cost_of(data, production, setups)}
+    return _heuristic_result(data, production)
 
 
 def _whole(value: float) -> int:
     rounded = round(value)
-    if abs(value - rounded) > 1e-6:
+    if abs(value - rounded) > _roundoff(value, rounded):
         raise ValueError("coordinate plan expects integer demand")
     return int(rounded)
 
 
 def audit(data: dict, production: list[list[float]]) -> dict:
     """Rebuild inventory and cost from quantities. Independent of the solver matrix."""
+    _validate_data(data)
     n = data["n_items"]
     periods = data["n_periods"]
-    inventory = [[0.0 for _ in range(periods)] for _ in range(n)]
-    cost = 0.0
+    _matrix_shape(production, n, periods, "production")
+    cost_terms = []
     loads = []
     for period in range(periods):
-        load = 0.0
+        load_terms = []
         for item in range(n):
             qty = production[item][period]
-            if qty > 1e-6:
-                load += data["unit_time"][item] * qty + data["setup_time"][item]
-                cost += data["setup_cost"][item]
+            if qty > 0:
+                load_terms.extend((data["unit_time"][item] * qty, data["setup_time"][item]))
+                cost_terms.append(data["setup_cost"][item])
+        load = _finite_sum(load_terms, f"period {period} load")
         loads.append(load)
-        if load > data["capacity"] + 1e-4:
+        if load - data["capacity"] > _roundoff(load, data["capacity"]):
             raise ValueError(f"period {period} load {load:g} exceeds {data['capacity']:g}")
     for item in range(n):
-        previous = 0.0
         for period in range(periods):
-            level = previous + production[item][period] - data["demand"][period][item]
-            if level < -1e-4:
+            produced = _finite_sum(production[item][:period + 1], f"item {item} production")
+            needed = _finite_sum((data["demand"][t][item] for t in range(period + 1)), f"item {item} demand")
+            level = produced - needed
+            if level < -_roundoff(produced, needed):
                 raise ValueError(f"item {item} period {period} short by {-level:g}")
-            inventory[item][period] = max(0.0, level)
-            previous = inventory[item][period]
-            cost += data["holding"][item] * inventory[item][period]
+            cost_terms.append(data["holding"][item] * max(0.0, level))
+    cost = _finite_sum(cost_terms, "objective")
     return {"objective": round(cost, 4), "loads": [round(load, 4) for load in loads]}
 
 
 def _matrix(values: np.ndarray, index, n: int, periods: int) -> list[list[float]]:
-    return [[round(float(values[index(item, period)]), 4) for period in range(periods)] for item in range(n)]
+    return [[float(values[index(item, period)]) for period in range(periods)] for item in range(n)]
 
 
 def _is_number(token: str) -> bool:
@@ -528,6 +639,9 @@ def _is_number(token: str) -> bool:
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output-dir", type=Path, default=ROOT / "results")
+    args = parser.parse_args()
     data = load_trigeiro()
     optimal = solve_clsp(data)
     direct = lot_for_lot(data)
@@ -537,18 +651,19 @@ def main() -> None:
     report = {
         "instance": "Trigeiro F1",
         "citation": "Trigeiro, Thomas, McClain, Management Science 35(3):353-366, 1989",
-        "mirror": "https://github.com/gsamaro/trigeiro_fdata/blob/main/data/F1.DAT",
+        "mirror": "https://github.com/gsamaro/trigeiro_fdata/blob/a54b0fb51657fb93530b60faa794893e3d0bfae8/data/F1.DAT",
         "items": data["n_items"],
         "periods": data["n_periods"],
         "capacity": data["capacity"],
-        "highs": {key: optimal[key] for key in ("ok", "status", "objective", "setups", "mip_gap") if key in optimal},
+        "provenance": provenance([F1]),
+        "highs": {key: optimal[key] for key in ("ok", "status", "objective", "setups", "mip_gap", "reason") if key in optimal},
         "lot_for_lot": {key: direct[key] for key in ("ok", "status", "objective", "setups", "reason") if key in direct},
         "shift_earlier": {key: shifted[key] for key in ("ok", "status", "objective", "setups", "reason") if key in shifted},
         "merge_earlier": {key: merged[key] for key in ("ok", "status", "objective", "setups", "reason") if key in merged},
         "coordinate_plan": {key: coordinated[key] for key in ("ok", "status", "objective", "setups", "reason") if key in coordinated},
     }
-    out = ROOT / "results" / "trigeiro_f1.json"
-    out.parent.mkdir(exist_ok=True)
+    out = args.output_dir / "trigeiro_f1.json"
+    out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(report, indent=2))
 

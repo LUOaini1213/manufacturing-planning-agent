@@ -1,16 +1,39 @@
 {
   "instance": "Trigeiro F1",
   "citation": "Trigeiro, Thomas, McClain, Management Science 35(3):353-366, 1989",
-  "mirror": "https://github.com/gsamaro/trigeiro_fdata/blob/main/data/F1.DAT",
+  "mirror": "https://github.com/gsamaro/trigeiro_fdata/blob/a54b0fb51657fb93530b60faa794893e3d0bfae8/data/F1.DAT",
   "items": 6,
   "periods": 15,
   "capacity": 728.0,
+  "provenance": {
+    "generated_at": "2026-10-02T22:09:51.736190+00:00",
+    "python": "3.11.5",
+    "dependencies": {
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "simpy": "4.1.2"
+    },
+    "hash_convention": "SHA256 of UTF-8 text with CRLF normalized to LF",
+    "sha256": {
+      "data/trigeiro/F1.DAT": "bbf105888f9317ca9436e4a8a2cab4033405fbfc05381b8314a05fe44a86eec4",
+      "mpa/__init__.py": "aa7d4fb7272854cb4039472c3ae1e4c59163f7e0d99d5b16a04669231adac15f",
+      "mpa/agent.py": "540c671453875fc37692f9a3121ffaed75c5853eae31a6ef802a3a34c35323f7",
+      "mpa/clsp.py": "5d0e17d0e2788d45277f6fbb5db066424b0b16fbc69066d835a1c7f7a3126ee7",
+      "mpa/evaluate.py": "46d9ab09619651e4505caa793e1b74418ed34f9726e5d04e5c997190b4605445",
+      "mpa/reporting.py": "a8684185c28c371b8d35967642c6433d595e8ff0eab7d0bc2b477d971cd7eb2d",
+      "mpa/rules.py": "464d39e3df980ca51c7cbdfbbe3ff0ef6b5e560b9169dd0a325aa218e60378f5",
+      "mpa/scenario.py": "e8586d4ca36f34f84b0329f6174deefaab881308216fd4efdff4aa88ede5266d",
+      "mpa/simulate.py": "9410cba34ffc1f40ebb3dbb2d9128dc5a9d8dfd6fcb4fc4e07d6159423e21269",
+      "mpa/solve.py": "c3a775c57adfc4a9f3dca50f29141f0c8b799d2fc630a729d41a5d53e839bc69",
+      "mpa/workflow.py": "2e3a918b54a824dae8845b8341f7147741133fc7ab2750cb6d27fce25ee72691"
+    }
+  },
   "highs": {
     "ok": true,
     "status": "optimal",
     "objective": 40854.0,
     "setups": 46,
-    "mip_gap": 7.212170442538428e-05
+    "mip_gap": 0.0
   },
   "lot_for_lot": {
     "ok": false,

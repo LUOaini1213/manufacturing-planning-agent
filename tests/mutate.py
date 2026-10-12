@@ -18,6 +18,14 @@ ROOT = Path(__file__).resolve().parents[1]
 TESTS = str(ROOT / "tests")
 TEST_TIMEOUT_S = 300
 MUTANTS = [
+    # Rolling state must preserve past work, machine ownership and human approval.
+    ("mpa/rolling_state.py", "for event in events:", "for event in ():"),
+    ("mpa/rolling_state.py", 'if not isinstance(events, list) or events[:len(snapshot["events"])] != snapshot["events"]:', "if False:"),
+    ("mpa/rolling.py", "if confirmed is not True:", "if False:"),
+    ("mpa/rolling_state.py", "simpy.Resource(env, capacity=1)", "simpy.Resource(env, capacity=2)"),
+    ("mpa/rolling_state.py", "state = deepcopy(snapshot)", 'state = deepcopy(snapshot); state["executedPrefix"] = []'),
+    ("mpa/rolling_state.py", 'snapshot.get("scenarioHash") != scenario_hash(scenario)', "False"),
+    ("mpa/rolling.py", "if new_score <= old_score + 1e-8:", "if True:"),
     # Missing availability is silently zero-filled.
     ("mpa/scenario.py", "None if value is None else _number(value, f\"{prefix}.available[{index}]\")", "0.0 if value is None else _number(value, f\"{prefix}.available[{index}]\")"),
     # Boolean hours are treated as numeric.

@@ -22,6 +22,7 @@ jobs:
       - run: python -m pytest -q --junitxml=artifacts/tests.xml
       - run: python -m mpa.evaluate --output-dir artifacts/reports
       - run: python -m mpa.clsp --output-dir artifacts/reports
+      - run: python -m mpa.rolling --output-dir artifacts/rolling
       - uses: actions/upload-artifact@v4
         if: always()
         with:

@@ -1,0 +1,35 @@
+{
+  "name": "rolling_outage",
+  "story": "At hour 2, A unit 0 has completed and A unit 1 is in fabrication on M1. M1 fails until hour 6. Only unstarted B work may move to M2.",
+  "periods": ["D1"],
+  "hours_per_period": 8,
+  "overtime_cap_hours": 2,
+  "stages": ["fab", "test"],
+  "machines": [
+    {"id": "M1", "available": [8]},
+    {"id": "M2", "available": [8]},
+    {"id": "M3", "available": [8]}
+  ],
+  "orders": [
+    {"id": "A", "qty": 2, "due": 0, "hours": {"fab": {"M1": 1.5}, "test": {"M3": 0.5}}},
+    {"id": "B", "qty": 2, "due": 0, "hours": {"fab": {"M1": 1, "M2": 1}, "test": {"M3": 0.5}}}
+  ],
+  "costs": {"overtime_per_hour": 80, "tardiness_per_unit": 50, "unfinished_per_unit": 200},
+  "policies": {"cost_min": {"overtime": 80, "tardiness": 50, "unfinished": 200}},
+  "rolling": {
+    "currentTime": 2,
+    "event": {"machine": "M1", "start": 2, "end": 6},
+    "gridStep": 0.5,
+    "initialPlan": {
+      "ok": true,
+      "assignment": [
+        {"order": "A", "stage": "fab", "machine": "M1", "period": 0, "units": 2, "hours_each": 1.5},
+        {"order": "A", "stage": "test", "machine": "M3", "period": 0, "units": 2, "hours_each": 0.5},
+        {"order": "B", "stage": "fab", "machine": "M1", "period": 0, "units": 2, "hours_each": 1},
+        {"order": "B", "stage": "test", "machine": "M3", "period": 0, "units": 2, "hours_each": 0.5}
+      ],
+      "overtime": [],
+      "overtime_hours": 0
+    }
+  }
+}

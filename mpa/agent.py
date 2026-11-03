@@ -8,8 +8,15 @@ from mpa.solve import solve
 
 RELAX_MARKERS = ("改到最后", "放宽交期", "改交期", "准时率变成 100", "ignore the due")
 
+# Switch to the named `due_first` policy when at least this fraction of the
+# scheduled fabrication hours is lost (and some order is due after period 0).
+# Hand-written, not fitted: in surge_downtime the M2 D2 outage loses exactly
+# 8 of 32 fab hours (0.25), so the published Agent row sits on this boundary.
+# `python -m mpa.sweep` records what happens away from it (results/sweep.json).
+DUE_FIRST_LOSS_FRACTION = 0.25
 
-def run(scenario: dict) -> dict:
+
+def run(scenario: dict, due_first_threshold: float = DUE_FIRST_LOSS_FRACTION) -> dict:
     scenario = normalize(scenario)
     log: list[dict] = []
     request = scenario.get("request") or ""
@@ -36,7 +43,7 @@ def run(scenario: dict) -> dict:
             "needs_human_confirm": True,
         }
 
-    policy = _select_policy(scenario, log)
+    policy = _select_policy(scenario, log, due_first_threshold)
     plan = solve(scenario, policy)
     log.append(
         {
@@ -90,7 +97,7 @@ def run(scenario: dict) -> dict:
     return result
 
 
-def _select_policy(scenario: dict, log: list[dict]) -> str:
+def _select_policy(scenario: dict, log: list[dict], threshold: float = DUE_FIRST_LOSS_FRACTION) -> str:
     fab_ids = {machine_id for order in scenario["orders"] for machine_id in order["hours"].get("fab", {})}
     scheduled = 0.0
     available = 0.0
@@ -103,7 +110,7 @@ def _select_policy(scenario: dict, log: list[dict]) -> str:
     lost = max(0.0, scheduled - available)
     fraction = lost / scheduled if scheduled else 0.0
     due_after_first = any(order["due"] > 0 for order in scenario["orders"])
-    policy = "due_first" if fraction >= 0.25 and due_after_first else "cost_min"
+    policy = "due_first" if fraction >= threshold and due_after_first else "cost_min"
     log.append(
         {
             "tool": "select_policy",

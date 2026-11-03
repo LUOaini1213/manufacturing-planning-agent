@@ -1,5 +1,14 @@
 # Manufacturing Planning Agent
 
+**TL;DR (English).** A small synthetic capacity-planning prototype (2 stages, 2 days, 3 machines, 16 units). A HiGHS MILP (SciPy `milp`) allocates work per period, a seeded SimPy replay checks whether that allocation can actually be executed, and a separate rolling mode replans after an outage while keeping work in progress. Three arms run on the same data: an earliest-due-date rule, a fixed workflow, and a scripted "Agent" tool policy that makes **zero language-model calls**.
+
+- Demand surge with M2 down for all of D2 (seed 7), replay on-time/late/unfinished: rule 12/3/1 at cost 590, fixed workflow 14/1/1 at cost 250, Agent 14/2/0 at cost 180.
+- That gap comes from one hand-written switch: the Agent picks `due_first` when at least 25% of fab hours are lost, and this scenario loses exactly 25%. In a 180-run sweep (M2 D2 availability 0-8 h x seeds 1-20) the Agent is cheaper than the fixed workflow in 19 of 20 seeds at 0 h (more expensive in 1) and identical in all 160 runs at 1-8 h; at 8 h, forcing `due_first` would have been cheaper in 14 of 20 seeds ([sweep](#阈值扫描), [`results/sweep.json`](results/sweep.json)).
+- Public CLSP benchmark (Trigeiro F1): HiGHS optimum 40854 vs 42226 for the best heuristic here.
+- Limits: synthetic data and one scenario family, a hand-written threshold, no LLM, no plant trial; "optimal" means per-period allocation, not a timed schedule.
+
+The rest of this page is in Chinese. Replay and rolling-replan mechanics: [docs/MECHANICS.zh.md](docs/MECHANICS.zh.md) (Chinese), [docs/ROLLING_REPLAN.md](docs/ROLLING_REPLAN.md) and [docs/BROWSER_DEMO.md](docs/BROWSER_DEMO.md) (English). Python 3.11 or 3.12.
+
 合成数据上的产能分配和停机重排。不是聊天机器人，也不再包一层多 Agent 框架。
 
 订单变多，一台加工设备整天停机。问题是：现有班次能不能守住交期，该加班，还是接受延期。求解器用 HiGHS（经 SciPy `milp`）。仿真用 SimPy 把加工时间扰动放进去。交期不能为了把准时率改成 100% 而被删掉。
@@ -18,54 +27,17 @@
 
 本版 Agent **没有调用语言模型**（`model_calls = 0`）。它是一段写死的工具策略，用来把「求解器的贡献」和「调度策略的贡献」分开。CI 里的记录不能当成真实模型表现。
 
-## 周期分配与实际回放
+## 周期分配、回放与滚动重排
 
-求解器的 `optimal` 只表示**周期总量分配**的最优解：它检查工时容量、可用机器和累计加工先于测试，不排出日内每件产品的开始时刻。回放才检查同机排队、工序先后和真实开窗。即使没有随机扰动，总量可行也不保证按 FIFO 执行时全部准时。
-
-- `available=0` 是整班停机，不能靠加班复活；`null` 是缺数据。固定流程补满班次是故意保留的错误对照，不是业务建议。
-- 默认周期跨度为 `hours_per_period + overtime_cap_hours`。这里是 8 小时正常班次加最多 2 小时加班，下一周期从 t=10 开始，交期是对应周期的末尾。可以显式设 `period_length_hours=24` 表示每天一次班次；跨度不能小于班次与加班之和。
-- `available_start` 给出每个周期内正常工作窗口的起点。M1 第二期先停 3 小时，就是 `[13,18]` 的正常窗口。重排同时保留起点和剩余工时，避免把停机错误地挪到班次末尾。
-- 工序按 FIFO 占用单台机器，闭窗时暂停，在该机器后续合法窗口续作；已开始的工序保留队列位置。没有后续窗口的剩余工作计为未完工，不能延伸到停机或未授权的加班时间。只有加工完成后才进入测试；只加工未测试的在制品也消耗工时。
-- 加工扰动按固定种子预先分配到订单、单位和工序。同一单位的取样不会因排队顺序改变。报告记录每段加工的起止、机器、周期、剩余工作量和实际加班。
-- `accounting_cost` 按**预约的加班工时**计费，实际加班单独记录为 `actual_overtime_hours`。这是本示例的费用假设，未把实际工时与预约工时混为一谈。
-
-原有两条工具流程都只做一次**离线、全周期重新求解**。它不是保留当前在制状态的在线调度。Agent 按所选策略的延期、未完工和预约加班权重比较两次回放，仅接受不更差的候选；仍需人工确认，没有自动下发生产指令。
-
-## 按已执行状态滚动重排
-
-### 浏览器停机演练（无 Key）
-
-安装依赖后，一条命令打开真实求解工作台：
+求解器的 `optimal` 只表示**周期总量分配**的最优解，不排出日内每件产品的开始时刻；同机排队、工序先后和真实开窗由 SimPy 回放检查。另有一个按已执行状态滚动重排的独立模式和一个本地浏览器停机演练。细节（停机日历、FIFO 续作、加班计费、在制品冻结、演练会话与证据）见 [docs/MECHANICS.zh.md](docs/MECHANICS.zh.md)。
 
 ```bash
 python -m pip install -r requirements.txt
-python -m mpa.demo --port 8840
-# Open http://127.0.0.1:8840
-```
-
-页面展示当前执行、已完成工序、冻结的在制机台/剩余工时和新旧甘特。输入停机事件后，由现有 HiGHS/SimPy 实际计算；只有选择路线、勾选确认并点击推进，模拟时钟和执行前缀才会改变。推荐演练：M1 停机 `[2,6)` → 比较 → 确认 candidate 并推进到 3.5 → M2 停机 `[3.5,5.5)` → 再比较 → 确认推进到 8。第一次比较原路线完成 2/4、候选完成 4/4；第二事件后仍保留在制机台与已完成工序。这是确定性 synthetic 场景，不是工业收益率。
-
-刷新保留当前练习；每次加载复制独立会话，因此重复标签页不会互相修改。会话仅在这个本地进程内保留，30 分钟闲置或服务重启后可能不可恢复，页面会明确提示新练习。下载 JSON 可保留精确输入、所有已确认报告、加工轨迹以及包含 API/前端的源码指纹。比较失败、没有候选或候选更差时保持原状态；不能通过 UI 确认一个不推荐的候选。
-
-[公开 recorded replay](https://luoaini1213.github.io/manufacturing-planning-agent/) 展示五步真实计算记录，**不能在线运行 Python、改变事件或下发生产指令**。该入口由审阅后的 main 手工发布；新 PR 只构建/检查静态产物，不部署。可先在本地生成预览：
-
-```bash
-python scripts/build_demo.py
-python scripts/build_demo.py --check
-python -m http.server 8841 --bind 127.0.0.1 --directory build/pages
-```
-
-[演练 API、恢复与证据契约](docs/BROWSER_DEMO.md)。原场景、历史结果和下述离线报告保持原来源。
-
-新增的独立模式用 SimPy 真正运行到 `currentTime`，保留已完成单位、在制机台、已加工/剩余工时和执行前缀。停机后，在制工序固定原机台并暂停续作，后件不能超车；HiGHS 只给尚未开始的工序重选机台与时刻。原计划剩余段和候选都从同一快照续跑，交期与加班授权不变，确认前不改变执行状态。
-
-```bash
+python -m mpa.demo --port 8840            # 本地演练，打开 http://127.0.0.1:8840
 python -m mpa.rolling --output-dir artifacts/rolling
 ```
 
-打开 `artifacts/rolling/index.html` 看切点状态、在制剩余工时、新旧甘特、逐件轨迹和来源指纹；仓库另保存[固定输入报告](results/rolling/index.html)和[完整 JSON](results/rolling/comparison.json)。四单位手写算例在 t=2 已完成 A/0，A/1 加工了 0.5 小时；M1 从 t=2 停到 t=6。原剩余路线完成 2、未完成 2；候选只把未开工的 B 转到 M2，完成 4、未完成 0。两个方案预约/实际加班均为 0，没有改交期。这一个固定工时算例不代表工业收益率或语言模型表现。
-
-模式支持再次事件和明确人工确认，但仍是无模型、无实厂接入的两工序原型。0.5 小时启动网格保守占用机器，不能把网格最优说成连续时间全局最优；已授权加班冻结，不能采购额外工时。在制品假设可暂停续作，不支持报废、重做或迁移已开工工序。[执行协议、验收与报告边界](docs/ROLLING_REPLAN.md)。旧随机扰动比较和 F1 数字保持原来源，不能归到新模式。
+滚动算例：t=2 时 M1 停到 t=6，原剩余路线完成 2、未完成 2；候选只把未开工的 B 转到 M2，完成 4、未完成 0，加班均为 0，没有改交期。这是一个四单位手写确定性算例，不代表工业收益率。固定输入结果：[甘特图](results/rolling/gantt.svg)、[完整 JSON](results/rolling/comparison.json)。[公开 recorded replay](https://luoaini1213.github.io/manufacturing-planning-agent/) 只回放记录，不能在线运行。
 
 ## 当前结果
 
@@ -78,6 +50,8 @@ python -m mpa.rolling --output-dir artifacts/rolling
 | 要求把交期改到最后一天、准时率变成 100% | 准时 16，延期 0，未完工 0，加班 3，成本 240 | 准时 15，延期 1，未完工 0，加班 0，成本 50 | 拒绝改交期。准时 16，延期 0，未完工 0，加班 1，成本 80 |
 
 `due_first` 比 `cost_min` 多花 30，换回那 1 个准时单位。这是菜单规则的取舍，不是 Agent 把成本做低了。
+
+第三行的「拒绝改交期」只是一条按关键词触发的日志：`mpa/agent.py` 用 `RELAX_MARKERS` 做子串匹配，换一种说法（如「把交期都推迟到 D2」）不会产生 `denied` 记录。交期不变的保证来自结构：三支都没有写 `due` 的代码路径，所以第三行三支的计划与第一行逐项相同（`tests/test_planning.py` 固定这一点）。这一行不能说明 Agent 比另外两支更会守交期。
 
 不加扰动、也不额外停机时，`cost_min` 总量分配为准时 15、延期 1；按 FIFO 回放为准时 14、延期 2、未完工 0。工序必须先后执行，所以不能只凭总工时宣称可执行。
 
@@ -97,6 +71,29 @@ python -m mpa.rolling --output-dir artifacts/rolling
 
 这里 Agent 回放费用较低是这一组数据的结果，不是普遍保证，也不是语言模型能力证明。
 
+### 阈值扫描
+
+上表 Agent 与固定流程的差距全部来自策略选择：`mpa/agent.py` 的 `DUE_FIRST_LOSS_FRACTION = 0.25` 是手写阈值，加工机台（M1、M2）损失的计划工时比例不低于它时选 `due_first`，否则选 `cost_min`（与固定流程相同）。需求上调场景里 M2 第二天全停，损失 8/32 = 0.25，恰好落在阈值上。把同一 Agent 的阈值改成「不会触发」后，这一场景回放为准时 14、延期 1、未完工 1、费用 250，与固定流程相同。
+
+为看阈值两侧，`python -m mpa.sweep` 把 M2 第二天可用工时取 0–8 小时、回放种子取 1–20，共 180 个场景；每个场景跑规则、固定流程、Agent，以及把同一 Agent 强制为 `cost_min` / `due_first` 的两个对照（其余数据与上表相同，含 M1 第二天先停 3 小时）。「更低 / 相同 / 更高」指回放费用。
+
+| M2 D2 可用工时 | 加工损失比例 | Agent 策略 | Agent 对固定流程 更低 / 相同 / 更高 | 平均回放费用 规则 / 固定流程 / Agent | 强制 `due_first` 对强制 `cost_min` 更低 / 相同 / 更高 |
+|---:|---:|---|---:|---:|---:|
+| 0 | 0.2500 | due_first 20 | 19 / 0 / 1 | 550 / 295 / 235 | 19 / 0 / 1 |
+| 1 | 0.2188 | cost_min 20 | 0 / 20 / 0 | 390 / 257.5 / 257.5 | 0 / 0 / 20 |
+| 2 | 0.1875 | cost_min 20 | 0 / 20 / 0 | 390 / 257.5 / 257.5 | 0 / 0 / 20 |
+| 3 | 0.1562 | cost_min 20 | 0 / 20 / 0 | 390 / 227.5 / 227.5 | 0 / 0 / 20 |
+| 4 | 0.1250 | cost_min 20 | 0 / 20 / 0 | 390 / 237.5 / 237.5 | 0 / 0 / 20 |
+| 5 | 0.0938 | cost_min 20 | 0 / 20 / 0 | 390 / 87.5 / 87.5 | 0 / 0 / 20 |
+| 6 | 0.0625 | cost_min 20 | 0 / 20 / 0 | 390 / 87.5 / 87.5 | 0 / 0 / 20 |
+| 7 | 0.0312 | cost_min 20 | 0 / 20 / 0 | 390 / 87.5 / 87.5 | 0 / 0 / 20 |
+| 8 | 0.0000 | cost_min 20 | 0 / 20 / 0 | 390 / 227.5 / 227.5 | 14 / 0 / 6 |
+
+- 只有 0 小时（损失恰为 0.25）时 Agent 与固定流程不同：20 个种子里更便宜 19 次、更贵 1 次。1–8 小时 Agent 选 `cost_min`，160 个场景与固定流程逐个相同。
+- 1–7 小时强制 `due_first` 每次都更贵，所以在这一场景族的部分停机点上选 `cost_min` 不吃亏；但 8 小时（无停机）时强制 `due_first` 在 20 个种子里有 14 次更便宜，阈值没有覆盖这种情况。阈值是手写的切换，不是按回放结果调出来的规则，也只在这一个场景族上检查过。
+
+数字在 `results/sweep.json`，`python -m mpa.sweep --check` 重新计算并与它比较（CI 运行）；`tests/test_sweep.py` 抽样重算部分行，并从提交的汇总检查本表和英文摘要。
+
 缺工时的那一格，固定流程假设 M2 第二天仍有 8 小时，于是给出成本 0、准时 9 的计划。这个种子下仿真也是 **准时 9、延期 0**。Agent 不补这个数。
 
 复跑：
@@ -105,13 +102,14 @@ python -m mpa.rolling --output-dir artifacts/rolling
 python -m pip install -r requirements-dev.txt
 python -m pytest -q
 python -m mpa.evaluate --output-dir artifacts/reports
+python -m mpa.sweep --check
 python tests/mutate.py --self-test
 python tests/mutate.py
 ```
 
 数字在 `results/comparison.json`，包含初始/最终计划、两次回放和加工轨迹。报告末尾记录输入和源码 SHA256、Python 与依赖版本。SHA 以 UTF-8/LF 统一换行，方便 Windows/Linux 核对。改变求解器版本时，等成本解可能选择不同的分配，因此应同时检查版本、轨迹和费用。省略 `--output-dir` 会更新 `results/`；历史基线保存在 `results/history/fdbbebf/`，不要覆写或手改结果。
 
-CI 在 Python 3.11/3.12 运行完整测试和两个实际报告命令，另有故障变体检查。输入测试覆盖缺失工时、整班关闭、部分班次、恢复、非法值、维度和机器引用；回放测试核查窗口、排队、在制品、噪声和计划费用；小型手算例区分容量分配与可执行计划。变异框架只把真实断言失败算作捕获；收集错误、进程崩溃和超时都会停止，且恢复原始源码字节。不要与应用或其他测试在同一个目录并行运行变异检查。
+CI 在 Ubuntu（Python 3.11、3.12）和 Windows（Python 3.11）上运行完整测试、前端脚本检查（`node --check` 和 `node --test`）、三个报告命令（`mpa.evaluate`、`mpa.clsp`、`mpa.rolling`）和 `python -m mpa.sweep --check`；另有单独的变异检查 job（Ubuntu、Python 3.11）。输入测试覆盖缺失工时、整班关闭、部分班次、恢复、非法值、维度和机器引用；回放测试核查窗口、排队、在制品、噪声和计划费用；小型手算例区分容量分配与可执行计划。变异框架只把真实断言失败算作捕获；收集错误、进程崩溃和超时都会停止，且恢复原始源码字节。不要与应用或其他测试在同一个目录并行运行变异检查。
 
 ## 公开算例：Trigeiro F1
 

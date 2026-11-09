@@ -51,7 +51,7 @@ python -m mpa.rolling --output-dir artifacts/rolling
 
 `due_first` 比 `cost_min` 多花 30，换回那 1 个准时单位。这是菜单规则的取舍，不是 Agent 把成本做低了。
 
-第三行的「拒绝改交期」只是一条按关键词触发的日志：`mpa/agent.py` 用 `RELAX_MARKERS` 做子串匹配，换一种说法（如「把交期都推迟到 D2」）不会产生 `denied` 记录。交期不变的保证来自结构：三支都没有写 `due` 的代码路径，所以第三行三支的计划与第一行逐项相同（`tests/test_planning.py` 固定这一点）。这一行不能说明 Agent 比另外两支更会守交期。
+第三行的「拒绝改交期」只是一条按关键词触发的日志：`mpa/agent.py` 用 `RELAX_MARKERS` 做子串匹配，换一种说法（如「把交期都推迟到 D2」）不会产生 `denied` 记录。交期不变的保证来自结构：三支都没有写 `due` 的代码路径，所以第三行三支的计划与第一行逐项相同（`tests/test_sweep.py` 固定这一点）。这一行不能说明 Agent 比另外两支更会守交期。
 
 不加扰动、也不额外停机时，`cost_min` 总量分配为准时 15、延期 1；按 FIFO 回放为准时 14、延期 2、未完工 0。工序必须先后执行，所以不能只凭总工时宣称可执行。
 

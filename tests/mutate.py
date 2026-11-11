@@ -102,6 +102,8 @@ MUTANTS = [
     ("mpa/clsp.py", "if len(rows) != 3 + n_items + n_periods:", "if len(rows) < 3 + n_items + n_periods:"),
     # Apply an unauthorized due-date relaxation while claiming denial.
     ("mpa/agent.py", "    if any(marker in request for marker in RELAX_MARKERS):\n        log.append(", "    if any(marker in request for marker in RELAX_MARKERS):\n        for order in scenario[\"orders\"]:\n            order[\"due\"] = len(scenario[\"periods\"]) - 1\n        log.append("),
+    # Move the policy switch off the published boundary (0.25 lost is no longer due_first).
+    ("mpa/agent.py", 'policy = "due_first" if fraction >= threshold and due_after_first else "cost_min"', 'policy = "due_first" if fraction > threshold and due_after_first else "cost_min"'),
     # Recommend a worse replay without comparison.
     ("mpa/agent.py", "accepted = new_score <= old_score + 1e-6", "accepted = True"),
     # Ignore unfinished demand in the replay policy score.

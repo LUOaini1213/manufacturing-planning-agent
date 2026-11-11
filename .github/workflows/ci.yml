@@ -32,6 +32,7 @@ jobs:
       - run: python -m mpa.evaluate --output-dir artifacts/reports
       - run: python -m mpa.clsp --output-dir artifacts/reports
       - run: python -m mpa.rolling --output-dir artifacts/rolling
+      - run: python -m mpa.sweep --check
       - uses: actions/upload-artifact@v4
         if: always()
         with:

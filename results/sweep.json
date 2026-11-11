@@ -1,0 +1,6856 @@
+{
+  "config": {
+    "scenario": "scenarios/surge_downtime.json",
+    "varied": "M2 availability in period 1 (D2), hours",
+    "m2_d2_hours": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20
+    ],
+    "due_first_loss_fraction": 0.25,
+    "replay_cost": "reserved overtime x 80 + tardy x 50 + unfinished x 200, after the seeded replay with the scenario's M1 D2 3-hour breakdown",
+    "forced_arms": "same Agent code with due_first_threshold=2.0 (never due_first) or 0.0 (always due_first)"
+  },
+  "rows": [
+    {
+      "m2_d2_hours": 0,
+      "seed": 1,
+      "fab_hours_lost_fraction": 0.25,
+      "agent_policy": "due_first",
+      "rule": {
+        "on_time": 12,
+        "tardy": 3,
+        "unfinished": 1,
+        "replay_cost": 590.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 0,
+      "seed": 2,
+      "fab_hours_lost_fraction": 0.25,
+      "agent_policy": "due_first",
+      "rule": {
+        "on_time": 12,
+        "tardy": 3,
+        "unfinished": 1,
+        "replay_cost": 590.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 1,
+        "unfinished": 2,
+        "replay_cost": 450.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 1,
+        "unfinished": 2,
+        "replay_cost": 450.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 0,
+      "seed": 3,
+      "fab_hours_lost_fraction": 0.25,
+      "agent_policy": "due_first",
+      "rule": {
+        "on_time": 12,
+        "tardy": 3,
+        "unfinished": 1,
+        "replay_cost": 590.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 0,
+      "seed": 4,
+      "fab_hours_lost_fraction": 0.25,
+      "agent_policy": "due_first",
+      "rule": {
+        "on_time": 12,
+        "tardy": 3,
+        "unfinished": 1,
+        "replay_cost": 590.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 0,
+      "seed": 5,
+      "fab_hours_lost_fraction": 0.25,
+      "agent_policy": "due_first",
+      "rule": {
+        "on_time": 12,
+        "tardy": 3,
+        "unfinished": 1,
+        "replay_cost": 590.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 0,
+      "seed": 6,
+      "fab_hours_lost_fraction": 0.25,
+      "agent_policy": "due_first",
+      "rule": {
+        "on_time": 12,
+        "tardy": 3,
+        "unfinished": 1,
+        "replay_cost": 590.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 0,
+      "seed": 7,
+      "fab_hours_lost_fraction": 0.25,
+      "agent_policy": "due_first",
+      "rule": {
+        "on_time": 12,
+        "tardy": 3,
+        "unfinished": 1,
+        "replay_cost": 590.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 0,
+      "seed": 8,
+      "fab_hours_lost_fraction": 0.25,
+      "agent_policy": "due_first",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 0,
+      "seed": 9,
+      "fab_hours_lost_fraction": 0.25,
+      "agent_policy": "due_first",
+      "rule": {
+        "on_time": 12,
+        "tardy": 3,
+        "unfinished": 1,
+        "replay_cost": 590.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 0,
+      "seed": 10,
+      "fab_hours_lost_fraction": 0.25,
+      "agent_policy": "due_first",
+      "rule": {
+        "on_time": 12,
+        "tardy": 3,
+        "unfinished": 1,
+        "replay_cost": 590.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 1,
+        "unfinished": 2,
+        "replay_cost": 450.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 1,
+        "unfinished": 2,
+        "replay_cost": 450.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 0,
+      "seed": 11,
+      "fab_hours_lost_fraction": 0.25,
+      "agent_policy": "due_first",
+      "rule": {
+        "on_time": 12,
+        "tardy": 3,
+        "unfinished": 1,
+        "replay_cost": 590.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 0,
+      "seed": 12,
+      "fab_hours_lost_fraction": 0.25,
+      "agent_policy": "due_first",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 0,
+      "seed": 13,
+      "fab_hours_lost_fraction": 0.25,
+      "agent_policy": "due_first",
+      "rule": {
+        "on_time": 12,
+        "tardy": 3,
+        "unfinished": 1,
+        "replay_cost": 590.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 0,
+      "seed": 14,
+      "fab_hours_lost_fraction": 0.25,
+      "agent_policy": "due_first",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 0,
+      "seed": 15,
+      "fab_hours_lost_fraction": 0.25,
+      "agent_policy": "due_first",
+      "rule": {
+        "on_time": 12,
+        "tardy": 3,
+        "unfinished": 1,
+        "replay_cost": 590.0
+      },
+      "fixed_workflow": {
+        "on_time": 12,
+        "tardy": 2,
+        "unfinished": 2,
+        "replay_cost": 500.0
+      },
+      "agent": {
+        "on_time": 12,
+        "tardy": 3,
+        "unfinished": 1,
+        "replay_cost": 430.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 12,
+        "tardy": 2,
+        "unfinished": 2,
+        "replay_cost": 500.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 12,
+        "tardy": 3,
+        "unfinished": 1,
+        "replay_cost": 430.0
+      }
+    },
+    {
+      "m2_d2_hours": 0,
+      "seed": 16,
+      "fab_hours_lost_fraction": 0.25,
+      "agent_policy": "due_first",
+      "rule": {
+        "on_time": 12,
+        "tardy": 3,
+        "unfinished": 1,
+        "replay_cost": 590.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 0,
+      "seed": 17,
+      "fab_hours_lost_fraction": 0.25,
+      "agent_policy": "due_first",
+      "rule": {
+        "on_time": 12,
+        "tardy": 3,
+        "unfinished": 1,
+        "replay_cost": 590.0
+      },
+      "fixed_workflow": {
+        "on_time": 12,
+        "tardy": 2,
+        "unfinished": 2,
+        "replay_cost": 500.0
+      },
+      "agent": {
+        "on_time": 12,
+        "tardy": 3,
+        "unfinished": 1,
+        "replay_cost": 430.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 12,
+        "tardy": 2,
+        "unfinished": 2,
+        "replay_cost": 500.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 12,
+        "tardy": 3,
+        "unfinished": 1,
+        "replay_cost": 430.0
+      }
+    },
+    {
+      "m2_d2_hours": 0,
+      "seed": 18,
+      "fab_hours_lost_fraction": 0.25,
+      "agent_policy": "due_first",
+      "rule": {
+        "on_time": 12,
+        "tardy": 3,
+        "unfinished": 1,
+        "replay_cost": 590.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 0,
+      "seed": 19,
+      "fab_hours_lost_fraction": 0.25,
+      "agent_policy": "due_first",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 0,
+      "seed": 20,
+      "fab_hours_lost_fraction": 0.25,
+      "agent_policy": "due_first",
+      "rule": {
+        "on_time": 12,
+        "tardy": 3,
+        "unfinished": 1,
+        "replay_cost": 590.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 1,
+      "seed": 1,
+      "fab_hours_lost_fraction": 0.2188,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 1,
+      "seed": 2,
+      "fab_hours_lost_fraction": 0.2188,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 1,
+      "seed": 3,
+      "fab_hours_lost_fraction": 0.2188,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 1,
+      "seed": 4,
+      "fab_hours_lost_fraction": 0.2188,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 1,
+      "seed": 5,
+      "fab_hours_lost_fraction": 0.2188,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 1,
+      "seed": 6,
+      "fab_hours_lost_fraction": 0.2188,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 1,
+      "seed": 7,
+      "fab_hours_lost_fraction": 0.2188,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 1,
+      "seed": 8,
+      "fab_hours_lost_fraction": 0.2188,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 1,
+      "seed": 9,
+      "fab_hours_lost_fraction": 0.2188,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 1,
+      "seed": 10,
+      "fab_hours_lost_fraction": 0.2188,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 1,
+      "seed": 11,
+      "fab_hours_lost_fraction": 0.2188,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 1,
+      "seed": 12,
+      "fab_hours_lost_fraction": 0.2188,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 1,
+      "seed": 13,
+      "fab_hours_lost_fraction": 0.2188,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 1,
+      "seed": 14,
+      "fab_hours_lost_fraction": 0.2188,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 1,
+      "seed": 15,
+      "fab_hours_lost_fraction": 0.2188,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 12,
+        "tardy": 3,
+        "unfinished": 1,
+        "replay_cost": 430.0
+      }
+    },
+    {
+      "m2_d2_hours": 1,
+      "seed": 16,
+      "fab_hours_lost_fraction": 0.2188,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 1,
+      "seed": 17,
+      "fab_hours_lost_fraction": 0.2188,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 12,
+        "tardy": 3,
+        "unfinished": 1,
+        "replay_cost": 430.0
+      }
+    },
+    {
+      "m2_d2_hours": 1,
+      "seed": 18,
+      "fab_hours_lost_fraction": 0.2188,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 1,
+      "seed": 19,
+      "fab_hours_lost_fraction": 0.2188,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 1,
+      "seed": 20,
+      "fab_hours_lost_fraction": 0.2188,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 2,
+      "seed": 1,
+      "fab_hours_lost_fraction": 0.1875,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 2,
+      "seed": 2,
+      "fab_hours_lost_fraction": 0.1875,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 2,
+      "seed": 3,
+      "fab_hours_lost_fraction": 0.1875,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 2,
+      "seed": 4,
+      "fab_hours_lost_fraction": 0.1875,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 2,
+      "seed": 5,
+      "fab_hours_lost_fraction": 0.1875,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 2,
+      "seed": 6,
+      "fab_hours_lost_fraction": 0.1875,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 2,
+      "seed": 7,
+      "fab_hours_lost_fraction": 0.1875,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 2,
+      "seed": 8,
+      "fab_hours_lost_fraction": 0.1875,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 2,
+      "seed": 9,
+      "fab_hours_lost_fraction": 0.1875,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 2,
+      "seed": 10,
+      "fab_hours_lost_fraction": 0.1875,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 2,
+      "seed": 11,
+      "fab_hours_lost_fraction": 0.1875,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 2,
+      "seed": 12,
+      "fab_hours_lost_fraction": 0.1875,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 2,
+      "seed": 13,
+      "fab_hours_lost_fraction": 0.1875,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 2,
+      "seed": 14,
+      "fab_hours_lost_fraction": 0.1875,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 2,
+      "seed": 15,
+      "fab_hours_lost_fraction": 0.1875,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 12,
+        "tardy": 3,
+        "unfinished": 1,
+        "replay_cost": 430.0
+      }
+    },
+    {
+      "m2_d2_hours": 2,
+      "seed": 16,
+      "fab_hours_lost_fraction": 0.1875,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 2,
+      "seed": 17,
+      "fab_hours_lost_fraction": 0.1875,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 12,
+        "tardy": 3,
+        "unfinished": 1,
+        "replay_cost": 430.0
+      }
+    },
+    {
+      "m2_d2_hours": 2,
+      "seed": 18,
+      "fab_hours_lost_fraction": 0.1875,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 2,
+      "seed": 19,
+      "fab_hours_lost_fraction": 0.1875,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 2,
+      "seed": 20,
+      "fab_hours_lost_fraction": 0.1875,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 3,
+      "seed": 1,
+      "fab_hours_lost_fraction": 0.1562,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 3,
+      "seed": 2,
+      "fab_hours_lost_fraction": 0.1562,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 3,
+      "seed": 3,
+      "fab_hours_lost_fraction": 0.1562,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 3,
+      "seed": 4,
+      "fab_hours_lost_fraction": 0.1562,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 3,
+      "seed": 5,
+      "fab_hours_lost_fraction": 0.1562,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 3,
+      "seed": 6,
+      "fab_hours_lost_fraction": 0.1562,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 3,
+      "seed": 7,
+      "fab_hours_lost_fraction": 0.1562,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 3,
+      "seed": 8,
+      "fab_hours_lost_fraction": 0.1562,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 3,
+      "seed": 9,
+      "fab_hours_lost_fraction": 0.1562,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 3,
+      "seed": 10,
+      "fab_hours_lost_fraction": 0.1562,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 3,
+      "seed": 11,
+      "fab_hours_lost_fraction": 0.1562,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 3,
+      "seed": 12,
+      "fab_hours_lost_fraction": 0.1562,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 3,
+      "seed": 13,
+      "fab_hours_lost_fraction": 0.1562,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 3,
+      "seed": 14,
+      "fab_hours_lost_fraction": 0.1562,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 3,
+      "seed": 15,
+      "fab_hours_lost_fraction": 0.1562,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 12,
+        "tardy": 3,
+        "unfinished": 1,
+        "replay_cost": 430.0
+      }
+    },
+    {
+      "m2_d2_hours": 3,
+      "seed": 16,
+      "fab_hours_lost_fraction": 0.1562,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 3,
+      "seed": 17,
+      "fab_hours_lost_fraction": 0.1562,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 12,
+        "tardy": 3,
+        "unfinished": 1,
+        "replay_cost": 430.0
+      }
+    },
+    {
+      "m2_d2_hours": 3,
+      "seed": 18,
+      "fab_hours_lost_fraction": 0.1562,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 3,
+      "seed": 19,
+      "fab_hours_lost_fraction": 0.1562,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 3,
+      "seed": 20,
+      "fab_hours_lost_fraction": 0.1562,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 4,
+      "seed": 1,
+      "fab_hours_lost_fraction": 0.125,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 4,
+      "seed": 2,
+      "fab_hours_lost_fraction": 0.125,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 4,
+      "seed": 3,
+      "fab_hours_lost_fraction": 0.125,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 4,
+      "seed": 4,
+      "fab_hours_lost_fraction": 0.125,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 4,
+      "seed": 5,
+      "fab_hours_lost_fraction": 0.125,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 4,
+      "seed": 6,
+      "fab_hours_lost_fraction": 0.125,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 4,
+      "seed": 7,
+      "fab_hours_lost_fraction": 0.125,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 4,
+      "seed": 8,
+      "fab_hours_lost_fraction": 0.125,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 4,
+      "seed": 9,
+      "fab_hours_lost_fraction": 0.125,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 4,
+      "seed": 10,
+      "fab_hours_lost_fraction": 0.125,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 4,
+      "seed": 11,
+      "fab_hours_lost_fraction": 0.125,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 4,
+      "seed": 12,
+      "fab_hours_lost_fraction": 0.125,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 4,
+      "seed": 13,
+      "fab_hours_lost_fraction": 0.125,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 4,
+      "seed": 14,
+      "fab_hours_lost_fraction": 0.125,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 4,
+      "seed": 15,
+      "fab_hours_lost_fraction": 0.125,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 12,
+        "tardy": 3,
+        "unfinished": 1,
+        "replay_cost": 430.0
+      }
+    },
+    {
+      "m2_d2_hours": 4,
+      "seed": 16,
+      "fab_hours_lost_fraction": 0.125,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 4,
+      "seed": 17,
+      "fab_hours_lost_fraction": 0.125,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 12,
+        "tardy": 3,
+        "unfinished": 1,
+        "replay_cost": 430.0
+      }
+    },
+    {
+      "m2_d2_hours": 4,
+      "seed": 18,
+      "fab_hours_lost_fraction": 0.125,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 4,
+      "seed": 19,
+      "fab_hours_lost_fraction": 0.125,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 4,
+      "seed": 20,
+      "fab_hours_lost_fraction": 0.125,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 380.0
+      }
+    },
+    {
+      "m2_d2_hours": 5,
+      "seed": 1,
+      "fab_hours_lost_fraction": 0.0938,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 5,
+      "seed": 2,
+      "fab_hours_lost_fraction": 0.0938,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 5,
+      "seed": 3,
+      "fab_hours_lost_fraction": 0.0938,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 5,
+      "seed": 4,
+      "fab_hours_lost_fraction": 0.0938,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 5,
+      "seed": 5,
+      "fab_hours_lost_fraction": 0.0938,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 5,
+      "seed": 6,
+      "fab_hours_lost_fraction": 0.0938,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 5,
+      "seed": 7,
+      "fab_hours_lost_fraction": 0.0938,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 5,
+      "seed": 8,
+      "fab_hours_lost_fraction": 0.0938,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 5,
+      "seed": 9,
+      "fab_hours_lost_fraction": 0.0938,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 5,
+      "seed": 10,
+      "fab_hours_lost_fraction": 0.0938,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 5,
+      "seed": 11,
+      "fab_hours_lost_fraction": 0.0938,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 5,
+      "seed": 12,
+      "fab_hours_lost_fraction": 0.0938,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 5,
+      "seed": 13,
+      "fab_hours_lost_fraction": 0.0938,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 5,
+      "seed": 14,
+      "fab_hours_lost_fraction": 0.0938,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 5,
+      "seed": 15,
+      "fab_hours_lost_fraction": 0.0938,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 230.0
+      }
+    },
+    {
+      "m2_d2_hours": 5,
+      "seed": 16,
+      "fab_hours_lost_fraction": 0.0938,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 5,
+      "seed": 17,
+      "fab_hours_lost_fraction": 0.0938,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 230.0
+      }
+    },
+    {
+      "m2_d2_hours": 5,
+      "seed": 18,
+      "fab_hours_lost_fraction": 0.0938,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 5,
+      "seed": 19,
+      "fab_hours_lost_fraction": 0.0938,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 5,
+      "seed": 20,
+      "fab_hours_lost_fraction": 0.0938,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 6,
+      "seed": 1,
+      "fab_hours_lost_fraction": 0.0625,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 6,
+      "seed": 2,
+      "fab_hours_lost_fraction": 0.0625,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 6,
+      "seed": 3,
+      "fab_hours_lost_fraction": 0.0625,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 6,
+      "seed": 4,
+      "fab_hours_lost_fraction": 0.0625,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 6,
+      "seed": 5,
+      "fab_hours_lost_fraction": 0.0625,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 6,
+      "seed": 6,
+      "fab_hours_lost_fraction": 0.0625,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 6,
+      "seed": 7,
+      "fab_hours_lost_fraction": 0.0625,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 6,
+      "seed": 8,
+      "fab_hours_lost_fraction": 0.0625,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 6,
+      "seed": 9,
+      "fab_hours_lost_fraction": 0.0625,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 6,
+      "seed": 10,
+      "fab_hours_lost_fraction": 0.0625,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 6,
+      "seed": 11,
+      "fab_hours_lost_fraction": 0.0625,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 6,
+      "seed": 12,
+      "fab_hours_lost_fraction": 0.0625,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 6,
+      "seed": 13,
+      "fab_hours_lost_fraction": 0.0625,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 6,
+      "seed": 14,
+      "fab_hours_lost_fraction": 0.0625,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 6,
+      "seed": 15,
+      "fab_hours_lost_fraction": 0.0625,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 230.0
+      }
+    },
+    {
+      "m2_d2_hours": 6,
+      "seed": 16,
+      "fab_hours_lost_fraction": 0.0625,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 6,
+      "seed": 17,
+      "fab_hours_lost_fraction": 0.0625,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 230.0
+      }
+    },
+    {
+      "m2_d2_hours": 6,
+      "seed": 18,
+      "fab_hours_lost_fraction": 0.0625,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 6,
+      "seed": 19,
+      "fab_hours_lost_fraction": 0.0625,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 6,
+      "seed": 20,
+      "fab_hours_lost_fraction": 0.0625,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 7,
+      "seed": 1,
+      "fab_hours_lost_fraction": 0.0312,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 7,
+      "seed": 2,
+      "fab_hours_lost_fraction": 0.0312,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 7,
+      "seed": 3,
+      "fab_hours_lost_fraction": 0.0312,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 7,
+      "seed": 4,
+      "fab_hours_lost_fraction": 0.0312,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 7,
+      "seed": 5,
+      "fab_hours_lost_fraction": 0.0312,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 7,
+      "seed": 6,
+      "fab_hours_lost_fraction": 0.0312,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 7,
+      "seed": 7,
+      "fab_hours_lost_fraction": 0.0312,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 7,
+      "seed": 8,
+      "fab_hours_lost_fraction": 0.0312,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 7,
+      "seed": 9,
+      "fab_hours_lost_fraction": 0.0312,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 7,
+      "seed": 10,
+      "fab_hours_lost_fraction": 0.0312,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 7,
+      "seed": 11,
+      "fab_hours_lost_fraction": 0.0312,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 7,
+      "seed": 12,
+      "fab_hours_lost_fraction": 0.0312,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 7,
+      "seed": 13,
+      "fab_hours_lost_fraction": 0.0312,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 7,
+      "seed": 14,
+      "fab_hours_lost_fraction": 0.0312,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 7,
+      "seed": 15,
+      "fab_hours_lost_fraction": 0.0312,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 230.0
+      }
+    },
+    {
+      "m2_d2_hours": 7,
+      "seed": 16,
+      "fab_hours_lost_fraction": 0.0312,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 7,
+      "seed": 17,
+      "fab_hours_lost_fraction": 0.0312,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 230.0
+      }
+    },
+    {
+      "m2_d2_hours": 7,
+      "seed": 18,
+      "fab_hours_lost_fraction": 0.0312,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 7,
+      "seed": 19,
+      "fab_hours_lost_fraction": 0.0312,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 7,
+      "seed": 20,
+      "fab_hours_lost_fraction": 0.0312,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 8,
+      "seed": 1,
+      "fab_hours_lost_fraction": 0.0,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 8,
+      "seed": 2,
+      "fab_hours_lost_fraction": 0.0,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 8,
+      "seed": 3,
+      "fab_hours_lost_fraction": 0.0,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 8,
+      "seed": 4,
+      "fab_hours_lost_fraction": 0.0,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 8,
+      "seed": 5,
+      "fab_hours_lost_fraction": 0.0,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 8,
+      "seed": 6,
+      "fab_hours_lost_fraction": 0.0,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 8,
+      "seed": 7,
+      "fab_hours_lost_fraction": 0.0,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 8,
+      "seed": 8,
+      "fab_hours_lost_fraction": 0.0,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 15,
+        "tardy": 1,
+        "unfinished": 0,
+        "replay_cost": 50.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 8,
+      "seed": 9,
+      "fab_hours_lost_fraction": 0.0,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 8,
+      "seed": 10,
+      "fab_hours_lost_fraction": 0.0,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 8,
+      "seed": 11,
+      "fab_hours_lost_fraction": 0.0,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 8,
+      "seed": 12,
+      "fab_hours_lost_fraction": 0.0,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 8,
+      "seed": 13,
+      "fab_hours_lost_fraction": 0.0,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 8,
+      "seed": 14,
+      "fab_hours_lost_fraction": 0.0,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 8,
+      "seed": 15,
+      "fab_hours_lost_fraction": 0.0,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 230.0
+      }
+    },
+    {
+      "m2_d2_hours": 8,
+      "seed": 16,
+      "fab_hours_lost_fraction": 0.0,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 8,
+      "seed": 17,
+      "fab_hours_lost_fraction": 0.0,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 230.0
+      }
+    },
+    {
+      "m2_d2_hours": 8,
+      "seed": 18,
+      "fab_hours_lost_fraction": 0.0,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 1,
+        "unfinished": 1,
+        "replay_cost": 250.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 8,
+      "seed": 19,
+      "fab_hours_lost_fraction": 0.0,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 100.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    },
+    {
+      "m2_d2_hours": 8,
+      "seed": 20,
+      "fab_hours_lost_fraction": 0.0,
+      "agent_policy": "cost_min",
+      "rule": {
+        "on_time": 13,
+        "tardy": 3,
+        "unfinished": 0,
+        "replay_cost": 390.0
+      },
+      "fixed_workflow": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_cost_min": {
+        "on_time": 13,
+        "tardy": 2,
+        "unfinished": 1,
+        "replay_cost": 300.0
+      },
+      "agent_forced_due_first": {
+        "on_time": 14,
+        "tardy": 2,
+        "unfinished": 0,
+        "replay_cost": 180.0
+      }
+    }
+  ],
+  "summary": {
+    "by_m2_d2_hours": [
+      {
+        "m2_d2_hours": 0,
+        "fab_hours_lost_fraction": 0.25,
+        "scenarios": 20,
+        "agent_policy": {
+          "due_first": 20
+        },
+        "lowest_replay_cost_including_ties": {
+          "rule": 0,
+          "fixed_workflow": 1,
+          "agent": 19
+        },
+        "agent_vs_fixed_workflow": {
+          "better": 19,
+          "equal": 0,
+          "worse": 1
+        },
+        "forced_due_first_vs_forced_cost_min": {
+          "better": 19,
+          "equal": 0,
+          "worse": 1
+        },
+        "mean_replay_cost": {
+          "rule": 550.0,
+          "fixed_workflow": 295.0,
+          "agent": 235.0,
+          "agent_forced_cost_min": 295.0,
+          "agent_forced_due_first": 235.0
+        }
+      },
+      {
+        "m2_d2_hours": 1,
+        "fab_hours_lost_fraction": 0.2188,
+        "scenarios": 20,
+        "agent_policy": {
+          "cost_min": 20
+        },
+        "lowest_replay_cost_including_ties": {
+          "rule": 0,
+          "fixed_workflow": 20,
+          "agent": 20
+        },
+        "agent_vs_fixed_workflow": {
+          "better": 0,
+          "equal": 20,
+          "worse": 0
+        },
+        "forced_due_first_vs_forced_cost_min": {
+          "better": 0,
+          "equal": 0,
+          "worse": 20
+        },
+        "mean_replay_cost": {
+          "rule": 390.0,
+          "fixed_workflow": 257.5,
+          "agent": 257.5,
+          "agent_forced_cost_min": 257.5,
+          "agent_forced_due_first": 355.0
+        }
+      },
+      {
+        "m2_d2_hours": 2,
+        "fab_hours_lost_fraction": 0.1875,
+        "scenarios": 20,
+        "agent_policy": {
+          "cost_min": 20
+        },
+        "lowest_replay_cost_including_ties": {
+          "rule": 0,
+          "fixed_workflow": 20,
+          "agent": 20
+        },
+        "agent_vs_fixed_workflow": {
+          "better": 0,
+          "equal": 20,
+          "worse": 0
+        },
+        "forced_due_first_vs_forced_cost_min": {
+          "better": 0,
+          "equal": 0,
+          "worse": 20
+        },
+        "mean_replay_cost": {
+          "rule": 390.0,
+          "fixed_workflow": 257.5,
+          "agent": 257.5,
+          "agent_forced_cost_min": 257.5,
+          "agent_forced_due_first": 355.0
+        }
+      },
+      {
+        "m2_d2_hours": 3,
+        "fab_hours_lost_fraction": 0.1562,
+        "scenarios": 20,
+        "agent_policy": {
+          "cost_min": 20
+        },
+        "lowest_replay_cost_including_ties": {
+          "rule": 0,
+          "fixed_workflow": 20,
+          "agent": 20
+        },
+        "agent_vs_fixed_workflow": {
+          "better": 0,
+          "equal": 20,
+          "worse": 0
+        },
+        "forced_due_first_vs_forced_cost_min": {
+          "better": 0,
+          "equal": 0,
+          "worse": 20
+        },
+        "mean_replay_cost": {
+          "rule": 390.0,
+          "fixed_workflow": 227.5,
+          "agent": 227.5,
+          "agent_forced_cost_min": 227.5,
+          "agent_forced_due_first": 325.0
+        }
+      },
+      {
+        "m2_d2_hours": 4,
+        "fab_hours_lost_fraction": 0.125,
+        "scenarios": 20,
+        "agent_policy": {
+          "cost_min": 20
+        },
+        "lowest_replay_cost_including_ties": {
+          "rule": 0,
+          "fixed_workflow": 20,
+          "agent": 20
+        },
+        "agent_vs_fixed_workflow": {
+          "better": 0,
+          "equal": 20,
+          "worse": 0
+        },
+        "forced_due_first_vs_forced_cost_min": {
+          "better": 0,
+          "equal": 0,
+          "worse": 20
+        },
+        "mean_replay_cost": {
+          "rule": 390.0,
+          "fixed_workflow": 237.5,
+          "agent": 237.5,
+          "agent_forced_cost_min": 237.5,
+          "agent_forced_due_first": 335.0
+        }
+      },
+      {
+        "m2_d2_hours": 5,
+        "fab_hours_lost_fraction": 0.0938,
+        "scenarios": 20,
+        "agent_policy": {
+          "cost_min": 20
+        },
+        "lowest_replay_cost_including_ties": {
+          "rule": 0,
+          "fixed_workflow": 20,
+          "agent": 20
+        },
+        "agent_vs_fixed_workflow": {
+          "better": 0,
+          "equal": 20,
+          "worse": 0
+        },
+        "forced_due_first_vs_forced_cost_min": {
+          "better": 0,
+          "equal": 0,
+          "worse": 20
+        },
+        "mean_replay_cost": {
+          "rule": 390.0,
+          "fixed_workflow": 87.5,
+          "agent": 87.5,
+          "agent_forced_cost_min": 87.5,
+          "agent_forced_due_first": 185.0
+        }
+      },
+      {
+        "m2_d2_hours": 6,
+        "fab_hours_lost_fraction": 0.0625,
+        "scenarios": 20,
+        "agent_policy": {
+          "cost_min": 20
+        },
+        "lowest_replay_cost_including_ties": {
+          "rule": 0,
+          "fixed_workflow": 20,
+          "agent": 20
+        },
+        "agent_vs_fixed_workflow": {
+          "better": 0,
+          "equal": 20,
+          "worse": 0
+        },
+        "forced_due_first_vs_forced_cost_min": {
+          "better": 0,
+          "equal": 0,
+          "worse": 20
+        },
+        "mean_replay_cost": {
+          "rule": 390.0,
+          "fixed_workflow": 87.5,
+          "agent": 87.5,
+          "agent_forced_cost_min": 87.5,
+          "agent_forced_due_first": 185.0
+        }
+      },
+      {
+        "m2_d2_hours": 7,
+        "fab_hours_lost_fraction": 0.0312,
+        "scenarios": 20,
+        "agent_policy": {
+          "cost_min": 20
+        },
+        "lowest_replay_cost_including_ties": {
+          "rule": 0,
+          "fixed_workflow": 20,
+          "agent": 20
+        },
+        "agent_vs_fixed_workflow": {
+          "better": 0,
+          "equal": 20,
+          "worse": 0
+        },
+        "forced_due_first_vs_forced_cost_min": {
+          "better": 0,
+          "equal": 0,
+          "worse": 20
+        },
+        "mean_replay_cost": {
+          "rule": 390.0,
+          "fixed_workflow": 87.5,
+          "agent": 87.5,
+          "agent_forced_cost_min": 87.5,
+          "agent_forced_due_first": 185.0
+        }
+      },
+      {
+        "m2_d2_hours": 8,
+        "fab_hours_lost_fraction": 0.0,
+        "scenarios": 20,
+        "agent_policy": {
+          "cost_min": 20
+        },
+        "lowest_replay_cost_including_ties": {
+          "rule": 0,
+          "fixed_workflow": 20,
+          "agent": 20
+        },
+        "agent_vs_fixed_workflow": {
+          "better": 0,
+          "equal": 20,
+          "worse": 0
+        },
+        "forced_due_first_vs_forced_cost_min": {
+          "better": 14,
+          "equal": 0,
+          "worse": 6
+        },
+        "mean_replay_cost": {
+          "rule": 390.0,
+          "fixed_workflow": 227.5,
+          "agent": 227.5,
+          "agent_forced_cost_min": 227.5,
+          "agent_forced_due_first": 185.0
+        }
+      }
+    ],
+    "overall": {
+      "scenarios": 180,
+      "agent_policy": {
+        "cost_min": 160,
+        "due_first": 20
+      },
+      "lowest_replay_cost_including_ties": {
+        "rule": 0,
+        "fixed_workflow": 161,
+        "agent": 179
+      },
+      "agent_vs_fixed_workflow": {
+        "better": 19,
+        "equal": 160,
+        "worse": 1
+      },
+      "forced_due_first_vs_forced_cost_min": {
+        "better": 33,
+        "equal": 0,
+        "worse": 147
+      },
+      "mean_replay_cost": {
+        "rule": 407.78,
+        "fixed_workflow": 196.11,
+        "agent": 189.44,
+        "agent_forced_cost_min": 196.11,
+        "agent_forced_due_first": 260.56
+      }
+    }
+  },
+  "provenance": {
+    "generated_at": "2026-11-11T11:04:32.608617+00:00",
+    "python": "3.11.5",
+    "dependencies": {
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "simpy": "4.1.2"
+    },
+    "hash_convention": "SHA256 of UTF-8 text with CRLF normalized to LF",
+    "sha256": {
+      "mpa/__init__.py": "aa7d4fb7272854cb4039472c3ae1e4c59163f7e0d99d5b16a04669231adac15f",
+      "mpa/agent.py": "c75dc1bf69936aba65dc09795b19225feb1e53b52740b421afaadc8e3726784c",
+      "mpa/clsp.py": "5d0e17d0e2788d45277f6fbb5db066424b0b16fbc69066d835a1c7f7a3126ee7",
+      "mpa/demo.py": "9df4cba8f973c90a0339315f15248e2434cfa04c892afbd1750a0c44c8758c06",
+      "mpa/demo_worker.py": "96c68c14906f774047928c7c905db12d16d47b2bc205f4c591c977df4ffaa67c",
+      "mpa/evaluate.py": "46d9ab09619651e4505caa793e1b74418ed34f9726e5d04e5c997190b4605445",
+      "mpa/reporting.py": "a8684185c28c371b8d35967642c6433d595e8ff0eab7d0bc2b477d971cd7eb2d",
+      "mpa/rolling.py": "d2c97909ec562661377fdbd5f69425858270b25187a6d96f908bd4b779ad93c7",
+      "mpa/rolling_solver.py": "bbe7c68cda3f8840f70d0c5880046c8a6e0c9faa2369291304e7e60ccef49c86",
+      "mpa/rolling_state.py": "9340e7148b2917758624dc32af0ad1512b160317d0a61ded9f01ae69c801eab0",
+      "mpa/rules.py": "464d39e3df980ca51c7cbdfbbe3ff0ef6b5e560b9169dd0a325aa218e60378f5",
+      "mpa/scenario.py": "e8586d4ca36f34f84b0329f6174deefaab881308216fd4efdff4aa88ede5266d",
+      "mpa/simulate.py": "9410cba34ffc1f40ebb3dbb2d9128dc5a9d8dfd6fcb4fc4e07d6159423e21269",
+      "mpa/solve.py": "c3a775c57adfc4a9f3dca50f29141f0c8b799d2fc630a729d41a5d53e839bc69",
+      "mpa/sweep.py": "a09cecb5b505d3fc1bdeaec15e7cfef9bf779792b6a687f3d052cfa1a7d6e634",
+      "mpa/workflow.py": "2e3a918b54a824dae8845b8341f7147741133fc7ab2750cb6d27fce25ee72691",
+      "scenarios/surge_downtime.json": "8b53b38b83c648b8572225e54ef357c017d43f495e468c56abe32180932574fd"
+    }
+  }
+}

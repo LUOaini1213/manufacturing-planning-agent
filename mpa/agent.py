@@ -10,8 +10,9 @@ RELAX_MARKERS = ("改到最后", "放宽交期", "改交期", "准时率变成 1
 
 # Switch to the named `due_first` policy when at least this fraction of the
 # scheduled fabrication hours is lost (and some order is due after period 0).
-# Hand-written, not fitted: in surge_downtime the M2 D2 outage loses exactly
-# 8 of 32 fab hours (0.25), so the published Agent row sits on this boundary.
+# Hand-written constant; this repo holds no derivation or calibration for it.
+# In surge_downtime the M2 D2 outage loses exactly 8 of 32 fab hours (0.25),
+# so the published Agent row sits on this boundary.
 # `python -m mpa.sweep` records what happens away from it (results/sweep.json).
 DUE_FIRST_LOSS_FRACTION = 0.25
 
